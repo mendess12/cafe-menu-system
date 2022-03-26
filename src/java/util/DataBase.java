@@ -17,7 +17,7 @@ public abstract class DataBase {
         Connection conn = null;
         
         try{
-            conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/cmsdb", "postgres", "cbZ!");
+            conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/cmsdb", "postgres", "123456");
             return conn;
         } catch(Exception e){
             System.out.println(e.getMessage());
