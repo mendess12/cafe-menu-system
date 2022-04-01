@@ -21,12 +21,13 @@ public class Kullanici {
         
     }
 
-    public Kullanici(short kullaniciId, String password, String isim, String soyisim, String adres) {
+    public Kullanici(short id, short kullaniciId, String password, String isim, String soyisim, String adres) {
         this.kullaniciId = kullaniciId;
         this.password = password;
         this.isim = isim;
         this.soyisim = soyisim;
         this.adres = adres;
+        this.id = id;
     }
     
     
@@ -78,7 +79,12 @@ public class Kullanici {
     public void setAdres(String adres) {
         this.adres = adres;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Kullanici{" + "id=" + id + ", kullaniciId=" + kullaniciId + ", password=" + password + ", isim=" + isim + ", soyisim=" + soyisim + ", adres=" + adres + '}';
+    }
+
     
     
 }

@@ -13,12 +13,12 @@ import java.sql.Statement;
  */
 public abstract class DataBase {
     
-    public Connection getConnect(){
+    protected Connection getConnect(){
         Connection conn = null;
         
         try{
+            Class.forName("org.postgresql.Driver");
             conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/cmsdb", "root", "12345");
-            return conn;
         } catch(Exception e){
             System.out.println(e.getMessage());
         }
