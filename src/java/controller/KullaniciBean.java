@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSF/JSFManagedBean.java to edit this template
- */
 package controller;
 
 import dao.KullaniciDAO;
@@ -19,6 +15,7 @@ import java.util.List;
 @SessionScoped
 public class KullaniciBean implements Serializable {
 
+    private Kullanici entity;
     private KullaniciDAO dao;
     private List<Kullanici> list;
     
@@ -26,6 +23,31 @@ public class KullaniciBean implements Serializable {
         
     }
 
+    public void create(){
+        getDao().createKullanici(getEntity());
+    }
+    
+    public void delete(){
+        getDao().deleteKullanici(getEntity());
+    }
+    
+    public void update(){
+        getDao().updateKullanici(getEntity());
+    }
+    
+    public Kullanici getEntity() {
+        if(this.entity == null){
+            this.entity = new Kullanici();
+        }
+        return entity;
+    }
+
+    public void setEntity(Kullanici entity) {
+        this.entity = entity;
+    }
+
+    
+    
     public KullaniciDAO getDao() {
         if(this.dao == null){
             this.dao = new KullaniciDAO();

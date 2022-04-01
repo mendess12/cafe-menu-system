@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import entity.Kullanici;
@@ -14,6 +10,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.ResultSet;
+import java.sql.PreparedStatement;
 
 
 /**
@@ -46,6 +43,33 @@ public class KullaniciDAO extends DataBase{
         }
         
         return list;
+    }
+    
+    public void createKullanici(Kullanici kullanici){
+        try {
+            String query = "INSERT INTO kullanici(kullanici_id, password, isim, soyisim, adres) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement pst = getConnection().prepareStatement(query);
+            
+            pst.setShort(1, kullanici.getKullaniciId());
+            pst.setString(2, kullanici.getPassword());
+            pst.setString(3, kullanici.getIsim());
+            pst.setString(4, kullanici.getSoyisim());
+            pst.setString(5, kullanici.getAdres());
+            
+            pst.executeUpdate();
+            
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        
+    }
+    
+    public void updateKullanici(Kullanici kullanici){
+        
+    }
+    
+    public void deleteKullanici(Kullanici kullanici){
+        
     }
 
     public Connection getConnection() {
