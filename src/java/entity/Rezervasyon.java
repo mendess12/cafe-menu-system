@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package entity;
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  *
@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 public class Rezervasyon {
     private short rezervasyonId;
     private int masaNo;
-    private Timestamp tarih;
+    private Date tarih;
     private String isim;
     private String soyisim;
     private String telNo;
@@ -21,7 +21,8 @@ public class Rezervasyon {
         
     }
 
-    public Rezervasyon(int masaNo, Timestamp tarih, String isim, String soyisim, String telNo) {
+    public Rezervasyon(short rezervasyonId,int masaNo, Date tarih, String isim, String soyisim, String telNo) {
+        this.rezervasyonId=rezervasyonId;
         this.masaNo = masaNo;
         this.tarih = tarih;
         this.isim = isim;
@@ -45,13 +46,15 @@ public class Rezervasyon {
         this.masaNo = masaNo;
     }
 
-    public Timestamp getTarih() {
+    public Date getTarih() {
         return tarih;
     }
 
-    public void setTarih(Timestamp tarih) {
+    public void setTarih(Date tarih) {
         this.tarih = tarih;
     }
+
+    
 
     public String getIsim() {
         return isim;
@@ -75,6 +78,11 @@ public class Rezervasyon {
 
     public void setTelNo(String telNo) {
         this.telNo = telNo;
+    }
+
+    @Override
+    public String toString() {
+        return "Rezervasyon{" + "rezervasyonId=" + rezervasyonId + ", masaNo=" + masaNo + ", tarih=" + tarih + ", isim=" + isim + ", soyisim=" + soyisim + ", telNo=" + telNo + '}';
     }
     
 }

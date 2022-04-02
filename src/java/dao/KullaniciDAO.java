@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import entity.Kullanici;
@@ -69,7 +65,8 @@ public class KullaniciDAO extends DataBase{
     }
     
     public void updateKullanici(Kullanici kullanici){
-        String query = "UPDATE kullanici SET kullaniciId=?, password=?, isim=?, soyisim=?, adres=? WHERE id=?";
+
+        String query = "UPDATE kullanici SET kullanici_id=?, password=?, isim=?, soyisim=?, adres=? WHERE id=?";
         try {
             PreparedStatement pst = getConnection().prepareStatement(query);
             
@@ -78,6 +75,7 @@ public class KullaniciDAO extends DataBase{
             pst.setString(3, kullanici.getIsim());
             pst.setString(4, kullanici.getSoyisim());
             pst.setString(5, kullanici.getAdres());
+            pst.setInt(6, kullanici.getId());
             
             pst.executeUpdate();
             
@@ -93,8 +91,9 @@ public class KullaniciDAO extends DataBase{
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        
+
     }
+    
 
     public Connection getConnection() {
         if(this.connection == null){
