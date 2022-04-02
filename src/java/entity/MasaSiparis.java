@@ -9,7 +9,7 @@ package entity;
  * @author Yusuf
  */
 public class MasaSiparis {
-    
+
     private short siparisId;
     private int adisyonId;
     private int urunId;
@@ -17,10 +17,11 @@ public class MasaSiparis {
     private boolean siparisDurumu;
 
     public MasaSiparis() {
-        
+
     }
 
-    public MasaSiparis(int adisyonId, int urunId, int tutar, boolean siparisDurumu) {
+    public MasaSiparis(short siparisId, int adisyonId, int urunId, int tutar, boolean siparisDurumu) {
+        this.siparisId = siparisId;
         this.adisyonId = adisyonId;
         this.urunId = urunId;
         this.tutar = tutar;
@@ -66,9 +67,10 @@ public class MasaSiparis {
     public void setSiparisDurumu(boolean siparisDurumu) {
         this.siparisDurumu = siparisDurumu;
     }
-    
-    
-    
-    
-    
+
+    @Override
+    public String toString() {
+        return "MasaSiparis{" + "siparisId=" + siparisId + ", adisyonId=" + adisyonId + ", urunId=" + urunId + ", tutar=" + tutar + ", siparisDurumu=" + siparisDurumu + '}';
+    }
+
 }
