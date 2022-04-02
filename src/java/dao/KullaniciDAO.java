@@ -80,7 +80,7 @@ public class KullaniciDAO extends DataBase{
             pst.executeUpdate();
             
         } catch (SQLException ex) {
-            Logger.getLogger(KullaniciDAO.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
         }
     }
     

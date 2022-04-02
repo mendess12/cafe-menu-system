@@ -4,7 +4,8 @@
  */
 package dao;
 
-import entity.KullaniciTuru;
+import entity.Kullanici;
+import entity.PaketSiparis;
 import util.DataBase;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,26 +19,25 @@ import java.util.List;
  *
  * @author 1907h
  */
-public class KullaniciTuruDAO extends DataBase{
+public class PaketSiparisDAO extends DataBase{
     
     private Connection connection;
     
-    public KullaniciTuruDAO(){
-        
-        
+    public PaketSiparisDAO(){
         
     }
-
-    public List<KullaniciTuru> getKullaniciTuruList(){
-        List<KullaniciTuru> list = new ArrayList<>();
+    
+    public List<PaketSiparis> getPaketSiparis(){
+        List<PaketSiparis> list = new ArrayList<>();
         try {
             Statement st = getConnection().createStatement();
             
-            String query = "SELECT * FROM kullanici_turu";
+            String query = "SELECT * FROM paket_siparis";
             ResultSet rs = st.executeQuery(query);
             
             while(rs.next()){
-                list.add(new KullaniciTuru(rs.getShort("kullanici_id"), rs.getString("kullanici")));
+                list.add(new PaketSiparis(rs.getShort("siparis_no"), rs.getInt("kullanici_id"), 
+                    rs.getInt("urun_id"), rs.getInt("tutar")));
             }
             
         } catch (SQLException ex) {
@@ -47,13 +47,14 @@ public class KullaniciTuruDAO extends DataBase{
         return list;
     }
     
-    public void createKullaniciTuru(KullaniciTuru kullaniciTuru){
+    public void createPaketSiparis(PaketSiparis paketSiparis){
         try {
-            String query = "INSERT INTO kullanici_turu(kullanici_id, kullanici) VALUES (?, ?)";
+            String query = "INSERT INTO paket_siparis(kullanici_id, urun_id, tutar) VALUES (?, ?, ?)";
             PreparedStatement pst = getConnection().prepareStatement(query);
             
-            pst.setShort(1, kullaniciTuru.getKullaniciId());
-            pst.setString(2, kullaniciTuru.getKullanici());
+            pst.setInt(1, paketSiparis.getKullaniciId());
+            pst.setInt(2, paketSiparis.getUrunId());
+            pst.setInt(3, paketSiparis.getTutar());
             
             pst.executeUpdate();
             
@@ -63,14 +64,17 @@ public class KullaniciTuruDAO extends DataBase{
         
     }
     
-    public void updateKullaniciTuru(KullaniciTuru kullaniciTuru){
+    
+    public void updatePaketSiparis(PaketSiparis paketSiparis){
 
-        String query = "UPDATE kullanici_turu SET kullanici=? WHERE kullanici_id=?";
+        String query = "UPDATE paket_siparis SET kullanici_id=?, urun_id=?, tutar=? WHERE siparis_no=?";
         try {
             PreparedStatement pst = getConnection().prepareStatement(query);
             
-            pst.setString(1, kullaniciTuru.getKullanici());
-            pst.setInt(2, kullaniciTuru.getKullaniciId());
+            pst.setInt(1, paketSiparis.getKullaniciId());
+            pst.setInt(2, paketSiparis.getUrunId());
+            pst.setInt(3, paketSiparis.getTutar());
+            pst.setShort(4, paketSiparis.getSiparisNo());
             
             pst.executeUpdate();
             
@@ -79,16 +83,16 @@ public class KullaniciTuruDAO extends DataBase{
         }
     }
     
-    public void deleteKullaniciTuru(KullaniciTuru kullaniciTuru){
+    public void deletePaketSiparis(PaketSiparis paketSiparis){
         try {
             Statement st = getConnection().createStatement();
-            st.executeUpdate("DELETE FROM kullanici_turu WHERE id=" + kullaniciTuru.getKullaniciId());
+            st.executeUpdate("DELETE FROM paket_siparis WHERE id=" + paketSiparis.getSiparisNo());
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
 
     }
-    
+
     public Connection getConnection() {
         if(this.connection == null){
             this.connection = getConnect();
@@ -99,5 +103,7 @@ public class KullaniciTuruDAO extends DataBase{
     public void setConnection(Connection connection) {
         this.connection = connection;
     }
+    
+    
     
 }
