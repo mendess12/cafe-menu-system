@@ -4,39 +4,39 @@
  */
 package dao;
 
-import entity.MasaSiparis;
-import java.util.List;
+import entity.Adisyon;
 import util.DataBase;
-import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
+import java.util.List;
+import java.sql.Connection;
 
 /**
  *
  * @author Yusuf
  */
-public class MasaSiparisDAO extends DataBase {
+public class AdisyonDAO extends DataBase {
 
     private Connection connection;
 
-    public MasaSiparisDAO() {
+    public AdisyonDAO() {
 
     }
 
-    public List<MasaSiparis> getMasaSiparisList() {
+    public List<Adisyon> getAdisyonList() {
 
-        List<MasaSiparis> list = new ArrayList();
+        List<Adisyon> list = new ArrayList();
 
         try {
 
             Statement st = getConnection().createStatement();
-            String query = "SELECT * FROM masa_siparis";
+            String query = "SELECT * FROM adisyon";
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
-                list.add(new MasaSiparis(rs.getShort("siparis_id"), rs.getInt("adisyon_id"),
-                        rs.getInt("urun_id"), rs.getInt("tutar"), rs.getBoolean("siparis_durum")));
+                list.add(new Adisyon(rs.getShort("adisyon_id"), rs.getInt("masa_no"),
+                        rs.getInt("tutar")));
             }
 
         } catch (Exception ex) {
@@ -45,32 +45,29 @@ public class MasaSiparisDAO extends DataBase {
         return list;
     }
 
-    public void createMasaSiparis(MasaSiparis ms) {
+    public void createAdisyon(Adisyon adisyon) {
 
         try {
 
             Statement st = this.getConnection().createStatement();
-            String query = "INSERT INTO (siparis_id,adisyon_id,urun_id,tutar,siparis_durum) VALUES ('" + ms.getSiparisId() + "'"
-                    + ",'" + ms.getAdisyonId() + "','" + ms.getUrunId() + "','" + ms.getTutar() + "','" + ms.isSiparisDurumu() + "')";
+            String query = "INSERT INTO (adisyon_id,masa_no,tutar) VALUES ('" + adisyon.getAdisyonId() + "','" + adisyon.getMasaNo() + "','" + adisyon.getTutar() + "')";
             st.executeUpdate(query);
 
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
     }
-
-    public void updateMasaSiparis(MasaSiparis ms) {
+    
+       public void updateAdisyon(Adisyon adisyon) {
 
         try {
             
-            String query = "UPDATE masa_siparis SET adisyon_id=?,urun_id=?,tutar=?,siparis_durumu=? WHERE siparis_id=?";
+            String query = "UPDATE adisyon SET masa_no=?,tutar=? WHERE adisyon_id=?";
             PreparedStatement pst = this.getConnection().prepareStatement(query);
            
-            pst.setInt(1,ms.getAdisyonId());
-            pst.setInt(2,ms.getUrunId());
-            pst.setInt(3,ms.getTutar());
-            pst.setBoolean(4,ms.isSiparisDurumu());
-            pst.setShort(5,ms.getSiparisId());
+            pst.setInt(1,adisyon.getMasaNo());
+            pst.setInt(2,adisyon.getTutar());
+            pst.setShort(3,adisyon.getAdisyonId());
             
             pst.executeUpdate();
 
@@ -79,27 +76,27 @@ public class MasaSiparisDAO extends DataBase {
         }
     }
 
-    public void deleteMasaSiparis(MasaSiparis ms) {
+       public void deleteAdisyon(Adisyon adisyon) {
 
         try {
 
             Statement st = this.getConnection().createStatement();
-            String query = "DELETE FROM masa_siparis WHERE siparis_id=" + ms.getSiparisId();
+            String query = "DELETE FROM adisyon WHERE adisyon_id=" + adisyon.getAdisyonId();
             st.executeUpdate(query);
 
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
     }
-
-    public Connection getConnection() {
+       
+    public java.sql.Connection getConnection() {
         if (this.connection == null) {
             this.connection = getConnect();
         }
         return connection;
     }
 
-    public void setConnection(Connection connection) {
+    public void setConnection(java.sql.Connection connection) {
         this.connection = connection;
     }
 
