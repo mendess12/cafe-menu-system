@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.ResultSet;
+import java.sql.PreparedStatement;
 
 
 /**
@@ -46,6 +47,53 @@ public class KullaniciDAO extends DataBase{
         }
         
         return list;
+    }
+    
+    public void createKullanici(Kullanici kullanici){
+        try {
+            String query = "INSERT INTO kullanici(kullanici_id, password, isim, soyisim, adres) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement pst = getConnection().prepareStatement(query);
+            
+            pst.setShort(1, kullanici.getKullaniciId());
+            pst.setString(2, kullanici.getPassword());
+            pst.setString(3, kullanici.getIsim());
+            pst.setString(4, kullanici.getSoyisim());
+            pst.setString(5, kullanici.getAdres());
+            
+            pst.executeUpdate();
+            
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        
+    }
+    
+    public void updateKullanici(Kullanici kullanici){
+        String query = "UPDATE kullanici SET kullaniciId=?, password=?, isim=?, soyisim=?, adres=? WHERE id=?";
+        try {
+            PreparedStatement pst = getConnection().prepareStatement(query);
+            
+            pst.setInt(1, kullanici.getKullaniciId());
+            pst.setString(2, kullanici.getPassword());
+            pst.setString(3, kullanici.getIsim());
+            pst.setString(4, kullanici.getSoyisim());
+            pst.setString(5, kullanici.getAdres());
+            
+            pst.executeUpdate();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(KullaniciDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void deleteKullanici(Kullanici kullanici){
+        try {
+            Statement st = getConnection().createStatement();
+            st.executeUpdate("DELETE FROM kullanici WHERE id=" + kullanici.getId());
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        
     }
 
     public Connection getConnection() {

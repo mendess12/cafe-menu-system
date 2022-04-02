@@ -19,6 +19,7 @@ import java.util.List;
 @SessionScoped
 public class KullaniciBean implements Serializable {
 
+    private Kullanici entity;
     private KullaniciDAO dao;
     private List<Kullanici> list;
     
@@ -26,6 +27,31 @@ public class KullaniciBean implements Serializable {
         
     }
 
+    public void create(){
+        getDao().createKullanici(getEntity());
+    }
+    
+    public void delete(Kullanici c){
+        getDao().deleteKullanici(c);
+    }
+    
+    public void update(){
+        getDao().updateKullanici(getEntity());
+    }
+    
+    public Kullanici getEntity() {
+        if(this.entity == null){
+            this.entity = new Kullanici();
+        }
+        return entity;
+    }
+
+    public void setEntity(Kullanici entity) {
+        this.entity = entity;
+    }
+
+    
+    
     public KullaniciDAO getDao() {
         if(this.dao == null){
             this.dao = new KullaniciDAO();
