@@ -10,13 +10,12 @@ package entity;
  */
 public class Adisyon {
 
-    
     private short adisyonId;
     private int masaNo;
     private int tutar;
-    
+
     public Adisyon() {
-        
+
     }
 
     public Adisyon(short adisyonId, int masaNo, int tutar) {
@@ -53,9 +52,5 @@ public class Adisyon {
     public String toString() {
         return "Adisyon{" + "adisyonId=" + adisyonId + ", masaNo=" + masaNo + ", tutar=" + tutar + '}';
     }
-    
-    
-    
-    
-    
+
 }

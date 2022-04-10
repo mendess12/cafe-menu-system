@@ -62,16 +62,16 @@ public class MasaSiparisDAO extends DataBase {
     public void updateMasaSiparis(MasaSiparis ms) {
 
         try {
-            
+
             String query = "UPDATE masa_siparis SET adisyon_id=?,urun_id=?,tutar=?,siparis_durumu=? WHERE siparis_id=?";
             PreparedStatement pst = this.getConnection().prepareStatement(query);
-           
-            pst.setInt(1,ms.getAdisyonId());
-            pst.setInt(2,ms.getUrunId());
-            pst.setInt(3,ms.getTutar());
-            pst.setBoolean(4,ms.isSiparisDurumu());
-            pst.setShort(5,ms.getSiparisId());
-            
+
+            pst.setInt(1, ms.getAdisyonId());
+            pst.setInt(2, ms.getUrunId());
+            pst.setInt(3, ms.getTutar());
+            pst.setBoolean(4, ms.isSiparisDurumu());
+            pst.setShort(5, ms.getSiparisId());
+
             pst.executeUpdate();
 
         } catch (Exception ex) {

@@ -57,18 +57,18 @@ public class AdisyonDAO extends DataBase {
             System.out.println(ex.getMessage());
         }
     }
-    
-       public void updateAdisyon(Adisyon adisyon) {
+
+    public void updateAdisyon(Adisyon adisyon) {
 
         try {
-            
+
             String query = "UPDATE adisyon SET masa_no=?,tutar=? WHERE adisyon_id=?";
             PreparedStatement pst = this.getConnection().prepareStatement(query);
-           
-            pst.setInt(1,adisyon.getMasaNo());
-            pst.setInt(2,adisyon.getTutar());
-            pst.setShort(3,adisyon.getAdisyonId());
-            
+
+            pst.setInt(1, adisyon.getMasaNo());
+            pst.setInt(2, adisyon.getTutar());
+            pst.setShort(3, adisyon.getAdisyonId());
+
             pst.executeUpdate();
 
         } catch (Exception ex) {
@@ -76,7 +76,7 @@ public class AdisyonDAO extends DataBase {
         }
     }
 
-       public void deleteAdisyon(Adisyon adisyon) {
+    public void deleteAdisyon(Adisyon adisyon) {
 
         try {
 
@@ -88,7 +88,7 @@ public class AdisyonDAO extends DataBase {
             System.out.println(ex.getMessage());
         }
     }
-       
+
     public java.sql.Connection getConnection() {
         if (this.connection == null) {
             this.connection = getConnect();

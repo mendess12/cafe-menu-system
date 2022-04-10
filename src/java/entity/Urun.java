@@ -9,15 +9,15 @@ package entity;
  * @author Yusuf
  */
 public class Urun {
-    
-    private short urunId ;
+
+    private short urunId;
     private int kategoriId;
     private String isim;
     private int fiyat;
     private String aciklama;
 
     public Urun() {
-        
+
     }
 
     public Urun(short urunId, int kategoriId, String isim, int fiyat, String aciklama) {
@@ -27,8 +27,6 @@ public class Urun {
         this.fiyat = fiyat;
         this.aciklama = aciklama;
     }
-
-   
 
     public short getUrunId() {
         return urunId;
@@ -74,7 +72,5 @@ public class Urun {
     public String toString() {
         return "Urun{" + "urunId=" + urunId + ", kategoriId=" + kategoriId + ", isim=" + isim + ", fiyat=" + fiyat + ", aciklama=" + aciklama + '}';
     }
-    
-    
-    
+
 }
