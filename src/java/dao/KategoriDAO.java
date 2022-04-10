@@ -48,7 +48,7 @@ public class KategoriDAO extends DataBase {
 
         try{
             Statement st = this.getConnection().createStatement();
-            String query = "SELECT * FROM kategori where kategori_no="+kategoriId;
+            String query = "SELECT * FROM kategori where kategori_id="+kategoriId;
             ResultSet rs = st.executeQuery(query);
 
             while(rs.next()){

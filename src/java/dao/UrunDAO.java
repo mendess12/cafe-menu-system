@@ -4,6 +4,7 @@
  */
 package dao;
 
+import entity.Kategori;
 import entity.Urun;
 import java.util.List;
 import util.DataBase;
@@ -20,9 +21,29 @@ import java.sql.PreparedStatement;
 public class UrunDAO extends DataBase {
 
     private Connection connection;
+    private KategoriDAO kategoriDao;
 
     public UrunDAO() {
 
+    }
+    
+    public Urun findByID(int urunId){
+        Urun urun = null;
+
+        try{
+            Statement st = this.getConnection().createStatement();
+            String query = "SELECT * FROM urun where urun_id="+urunId;
+            ResultSet rs = st.executeQuery(query);
+
+            while(rs.next()){
+                Kategori kategori = this.getKategoriDao().findByID(rs.getInt("kategori_id"));
+                urun = new Urun(rs.getInt("urun_id"),kategori,rs.getString("isim"),rs.getInt("fiyat"),rs.getString("aciklama"));
+            }
+
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return urun;
     }
 
     public List<Urun> getUrunList() {
@@ -35,8 +56,10 @@ public class UrunDAO extends DataBase {
             String query = "SELECT * FROM urun";
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
-                list.add(new Urun(rs.getShort("urun_id"), rs.getInt("kategori_id"),
-                        rs.getString("isim"), rs.getInt("fiyat"), rs.getString("aciklama")));
+
+                Kategori kategori = this.getKategoriDao().findByID(rs.getInt("kategori_id"));
+
+                list.add(new Urun(rs.getInt("urun_id"), kategori, rs.getString("isim"), rs.getInt("fiyat"), rs.getString("aciklama")));
             }
 
         } catch (Exception ex) {
@@ -50,8 +73,8 @@ public class UrunDAO extends DataBase {
         try {
 
             Statement st = this.getConnection().createStatement();
-            String query = "INSERT INTO (urun_id,kategori_id,isim,fiyat,aciklama) VALUES ('" + urun.getUrunId() + "'"
-                    + ",'" + urun.getKategoriId() + "','" + urun.getIsim() + "','" + urun.getFiyat() + "','" + urun.getAciklama() + "')";
+            String query = "INSERT INTO urun(urun_id,kategori_id,isim,fiyat,aciklama) VALUES ('" + urun.getUrunId() + "'"
+                    + ",'" + urun.getKategori().getKategoriId() + "','" + urun.getIsim() + "','" + urun.getFiyat() + "','" + urun.getAciklama() + "')";
             st.executeUpdate(query);
 
         } catch (Exception ex) {
@@ -66,11 +89,11 @@ public class UrunDAO extends DataBase {
             String query = "UPDATE urun SET kategori_id=?,isim=?,fiyat=?,aciklama=? WHERE urun_id=?";
             PreparedStatement pst = this.getConnection().prepareStatement(query);
 
-            pst.setInt(1, urun.getKategoriId());
+            pst.setInt(1, urun.getKategori().getKategoriId());
             pst.setString(2, urun.getIsim());
             pst.setInt(3, urun.getFiyat());
             pst.setString(4, urun.getAciklama());
-            pst.setShort(5, urun.getUrunId());
+            pst.setInt(5, urun.getUrunId());
 
             pst.executeUpdate();
 
@@ -101,6 +124,17 @@ public class UrunDAO extends DataBase {
 
     public void setConnection(Connection connection) {
         this.connection = connection;
+    }
+
+    public KategoriDAO getKategoriDao() {
+        if (kategoriDao == null) {
+            this.kategoriDao = new KategoriDAO();
+        }
+        return kategoriDao;
+    }
+
+    public void setKategoriDao(KategoriDAO kategoriDao) {
+        this.kategoriDao = kategoriDao;
     }
 
 }

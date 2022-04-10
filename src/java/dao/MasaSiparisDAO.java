@@ -35,8 +35,8 @@ public class MasaSiparisDAO extends DataBase {
             String query = "SELECT * FROM masa_siparis";
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
-                list.add(new MasaSiparis(rs.getShort("siparis_id"), rs.getInt("adisyon_id"),
-                        rs.getInt("urun_id"), rs.getInt("tutar"), rs.getBoolean("siparis_durum")));
+                list.add(new MasaSiparis(rs.getInt("siparis_id"), rs.getInt("adisyon_id"),
+                        rs.getInt("urun_id"), rs.getInt("tutar"), rs.getBoolean("siparis_durumu")));
             }
 
         } catch (Exception ex) {
@@ -50,7 +50,7 @@ public class MasaSiparisDAO extends DataBase {
         try {
 
             Statement st = this.getConnection().createStatement();
-            String query = "INSERT INTO (siparis_id,adisyon_id,urun_id,tutar,siparis_durum) VALUES ('" + ms.getSiparisId() + "'"
+            String query = "INSERT INTO masa_siparis(siparis_id,adisyon_id,urun_id,tutar,siparis_durumu) VALUES ('" + ms.getSiparisId() + "'"
                     + ",'" + ms.getAdisyonId() + "','" + ms.getUrunId() + "','" + ms.getTutar() + "','" + ms.isSiparisDurumu() + "')";
             st.executeUpdate(query);
 
@@ -70,7 +70,7 @@ public class MasaSiparisDAO extends DataBase {
             pst.setInt(2, ms.getUrunId());
             pst.setInt(3, ms.getTutar());
             pst.setBoolean(4, ms.isSiparisDurumu());
-            pst.setShort(5, ms.getSiparisId());
+            pst.setInt(5, ms.getSiparisId());
 
             pst.executeUpdate();
 

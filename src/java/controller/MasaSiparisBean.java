@@ -34,10 +34,12 @@ public class MasaSiparisBean implements Serializable {
 
     public void update() {
         this.getDao().updateMasaSiparis(getEntity());
+        this.entity = new MasaSiparis();
     }
 
-    public void delete() {
-        this.getDao().deleteMasaSiparis(getEntity());
+    public void delete(MasaSiparis entity) {
+        this.getDao().deleteMasaSiparis(entity);
+        this.entity = new MasaSiparis();
     }
 
     public MasaSiparis getEntity() {

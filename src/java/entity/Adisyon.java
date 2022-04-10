@@ -10,34 +10,34 @@ package entity;
  */
 public class Adisyon {
 
-    private short adisyonId;
-    private int masaNo;
+    private int adisyonId;
+    private Masa masa;
     private int tutar;
 
     public Adisyon() {
 
     }
 
-    public Adisyon(short adisyonId, int masaNo, int tutar) {
+    public Adisyon(int adisyonId, Masa masa, int tutar) {
         this.adisyonId = adisyonId;
-        this.masaNo = masaNo;
+        this.masa = masa;
         this.tutar = tutar;
     }
 
-    public short getAdisyonId() {
+    public int getAdisyonId() {
         return adisyonId;
     }
 
-    public void setAdisyonId(short adisyonId) {
+    public void setAdisyonId(int adisyonId) {
         this.adisyonId = adisyonId;
     }
 
-    public int getMasaNo() {
-        return masaNo;
+    public Masa getMasa() {
+        return masa;
     }
 
-    public void setMasaNo(int masaNo) {
-        this.masaNo = masaNo;
+    public void setMasa(Masa masa) {
+        this.masa = masa;
     }
 
     public int getTutar() {
@@ -50,7 +50,30 @@ public class Adisyon {
 
     @Override
     public String toString() {
-        return "Adisyon{" + "adisyonId=" + adisyonId + ", masaNo=" + masaNo + ", tutar=" + tutar + '}';
+        return "Adisyon{" + "adisyonId=" + adisyonId + ", masaNo=" + masa + ", tutar=" + tutar + '}';
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 41 * hash + this.adisyonId;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Adisyon other = (Adisyon) obj;
+        return this.adisyonId == other.adisyonId;
+    }
+
+    
 }

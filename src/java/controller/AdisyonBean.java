@@ -8,7 +8,6 @@ import dao.AdisyonDAO;
 import entity.Adisyon;
 import jakarta.inject.Named;
 import jakarta.enterprise.context.SessionScoped;
-import jakarta.jms.Connection;
 import java.io.Serializable;
 import java.util.List;
 
@@ -35,10 +34,12 @@ public class AdisyonBean implements Serializable {
 
     public void update() {
         this.getDao().updateAdisyon(getEntity());
+        this.entity = new Adisyon();
     }
 
-    public void delete() {
-        this.getDao().deleteAdisyon(getEntity());
+    public void delete(Adisyon entity) {
+        this.getDao().deleteAdisyon(entity);
+        this.entity = new Adisyon();
     }
 
     public AdisyonDAO getDao() {

@@ -10,7 +10,7 @@ package entity;
  */
 public class MasaSiparis {
 
-    private short siparisId;
+    private int siparisId;
     private int adisyonId;
     private int urunId;
     private int tutar;
@@ -20,7 +20,7 @@ public class MasaSiparis {
 
     }
 
-    public MasaSiparis(short siparisId, int adisyonId, int urunId, int tutar, boolean siparisDurumu) {
+    public MasaSiparis(int siparisId, int adisyonId, int urunId, int tutar, boolean siparisDurumu) {
         this.siparisId = siparisId;
         this.adisyonId = adisyonId;
         this.urunId = urunId;
@@ -28,11 +28,11 @@ public class MasaSiparis {
         this.siparisDurumu = siparisDurumu;
     }
 
-    public short getSiparisId() {
+    public int getSiparisId() {
         return siparisId;
     }
 
-    public void setSiparisId(short siparisId) {
+    public void setSiparisId(int siparisId) {
         this.siparisId = siparisId;
     }
 

@@ -34,10 +34,12 @@ public class UrunBean implements Serializable {
 
     public void update() {
         this.getDao().updateUrun(getEntity());
+        this.entity = new Urun();
     }
 
-    public void delete() {
-        this.getDao().deleteUrun(getEntity());
+    public void delete(Urun entity) {
+        this.getDao().deleteUrun(entity);
+        this.entity = new Urun();
     }
 
     public UrunDAO getDao() {

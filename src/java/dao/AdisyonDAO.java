@@ -5,6 +5,7 @@
 package dao;
 
 import entity.Adisyon;
+import entity.Masa;
 import util.DataBase;
 import java.sql.Statement;
 import java.sql.ResultSet;
@@ -20,9 +21,30 @@ import java.sql.Connection;
 public class AdisyonDAO extends DataBase {
 
     private Connection connection;
+    private MasaDAO masaDao;
 
     public AdisyonDAO() {
 
+    }
+
+    public Adisyon findByID(int adisyonId) {
+        Adisyon adisyon = null;
+
+        try {
+            Statement st = this.getConnection().createStatement();
+            String query = "SELECT * FROM adisyon where adisyon_id=" + adisyonId;
+            ResultSet rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                Masa masa = this.getMasaDao().findByID(rs.getInt("masa_no"));
+
+                adisyon = new Adisyon(rs.getInt("adisyon_id"), masa, rs.getInt("tutar"));
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        return adisyon;
     }
 
     public List<Adisyon> getAdisyonList() {
@@ -35,8 +57,10 @@ public class AdisyonDAO extends DataBase {
             String query = "SELECT * FROM adisyon";
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
-                list.add(new Adisyon(rs.getShort("adisyon_id"), rs.getInt("masa_no"),
-                        rs.getInt("tutar")));
+
+                Masa masa = this.getMasaDao().findByID(rs.getInt("masa_no"));
+
+                list.add(new Adisyon(rs.getInt("adisyon_id"), masa, rs.getInt("tutar")));
             }
 
         } catch (Exception ex) {
@@ -50,7 +74,7 @@ public class AdisyonDAO extends DataBase {
         try {
 
             Statement st = this.getConnection().createStatement();
-            String query = "INSERT INTO (adisyon_id,masa_no,tutar) VALUES ('" + adisyon.getAdisyonId() + "','" + adisyon.getMasaNo() + "','" + adisyon.getTutar() + "')";
+            String query = "INSERT INTO adisyon(adisyon_id,masa_no,tutar) VALUES ('" + adisyon.getAdisyonId() + "','" + adisyon.getMasa().getMasaNo() + "','" + adisyon.getTutar() + "')";
             st.executeUpdate(query);
 
         } catch (Exception ex) {
@@ -65,9 +89,9 @@ public class AdisyonDAO extends DataBase {
             String query = "UPDATE adisyon SET masa_no=?,tutar=? WHERE adisyon_id=?";
             PreparedStatement pst = this.getConnection().prepareStatement(query);
 
-            pst.setInt(1, adisyon.getMasaNo());
+            pst.setInt(1, adisyon.getMasa().getMasaNo());
             pst.setInt(2, adisyon.getTutar());
-            pst.setShort(3, adisyon.getAdisyonId());
+            pst.setInt(3, adisyon.getAdisyonId());
 
             pst.executeUpdate();
 
@@ -98,6 +122,17 @@ public class AdisyonDAO extends DataBase {
 
     public void setConnection(java.sql.Connection connection) {
         this.connection = connection;
+    }
+
+    public MasaDAO getMasaDao() {
+        if (masaDao == null) {
+            this.masaDao = new MasaDAO();
+        }
+        return masaDao;
+    }
+
+    public void setMasaDao(MasaDAO masaDao) {
+        this.masaDao = masaDao;
     }
 
 }

@@ -4,13 +4,62 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Adisyon</title>
         <h:outputStylesheet library="css" name="bootstrap.css"/>
         <h:outputScript library="js" name="bootstrap.js"/>
     </h:head>
     <h:body>
-        
-       
+
+
+        <h:form>
+            <h:commandButton style="margin:14px 0px 0px 4px;" action="/index.xhmtl" value="BACK"/>
+        </h:form>
+
+        <div class="tab-pane fade" id="adisyon" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+            <h:form>
+                <h:dataTable class="table" border="2" value="#{adisyonBean.list}" var="list">
+
+                    <h:column>
+                        <f:facet name="header">#</f:facet>
+                            #{list.adisyonId}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Masa No</f:facet>
+                            #{list.masa.masaNo}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Tutar</f:facet>
+                            #{list.tutar}
+                    </h:column>
+
+                    <h:column>
+                        <h:commandButton action="#{adisyonBean.delete(list)}" value="Sil"/>
+                    </h:column>
+                    <h:column>
+                        <h:commandButton action="#{adisyonBean.setEntity(list)}" value="Güncelle"/>
+                    </h:column>
+
+                </h:dataTable>
+            </h:form>
+        </div>
+        <hr />
+        <h:form>
+
+
+
+            <br/>
+            AdisyonId: <h:inputText value="#{adisyonBean.entity.adisyonId}" />
+            Masa:
+            <h:selectOneMenu value="#{adisyonBean.entity.masa}" converter="masaConverter">
+                <f:selectItems value="#{masaBean.list}" var="m" itemValue="#{m}" itemLabel="#{m.masaNo}">
+                </f:selectItems>
+            </h:selectOneMenu>
+            Tutar: <h:inputText value="#{adisyonBean.entity.tutar}" />
+            <h:commandButton action="#{adisyonBean.create()}" value="Yeni Kayıt"/>
+            <h:commandButton action="#{adisyonBean.update()}" value="update"/>
+        </h:form>
+
+
+
     </h:body>
 </html>
-
