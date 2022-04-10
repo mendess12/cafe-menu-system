@@ -44,21 +44,22 @@ public class MasaDAO extends DataBase {
         return list;
     }
     
-    public Masa findByID(int id){
-        Masa c=null;
-        try {
+    public Masa findByID(int masaNo){
+        Masa masa = null;
 
-            Statement st = getConnection().createStatement();
-            String query = "SELECT * FROM masa where masa_no="+id;
+        try{
+            Statement st = this.getConnection().createStatement();
+            String query = "SELECT * FROM masa where masa_no="+masaNo;
             ResultSet rs = st.executeQuery(query);
-            while (rs.next()) {
-                c=new Masa(rs.getInt("masa_no"), rs.getBoolean("musait_mi"), rs.getInt("kac_kisilik"));
+
+            while(rs.next()){
+                masa = new Masa(rs.getInt("masa_no"),rs.getBoolean("musait_mi"),rs.getInt("kac_kisilik"));
             }
 
-        } catch (Exception ex) {
+        }catch(Exception ex){
             System.out.println(ex.getMessage());
         }
-        return c;
+        return masa;
     }
     
 

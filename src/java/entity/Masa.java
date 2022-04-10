@@ -18,6 +18,8 @@ public class Masa {
 
     }
 
+    
+
     public Masa(int masaNo, boolean musaitMi,  int kacKisilik) {
         this.masaNo = masaNo;
         this.musaitMi = musaitMi;
@@ -54,5 +56,25 @@ public class Masa {
         this.kacKisilik = kacKisilik;
     }
 
-    
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + this.masaNo;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Masa other = (Masa) obj;
+        return this.masaNo == other.masaNo;
+    }
 }

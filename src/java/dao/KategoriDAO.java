@@ -43,7 +43,23 @@ public class KategoriDAO extends DataBase {
         }
         return list;
     }
+    public Kategori findByID(int kategoriId){
+        Kategori kategori = null;
 
+        try{
+            Statement st = this.getConnection().createStatement();
+            String query = "SELECT * FROM kategori where kategori_no="+kategoriId;
+            ResultSet rs = st.executeQuery(query);
+
+            while(rs.next()){
+                kategori = new Kategori(rs.getInt("kategori_id"),rs.getString("tur"));
+            }
+
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return kategori;
+    }
     public void createKategori(Kategori kt) {
 
         try {

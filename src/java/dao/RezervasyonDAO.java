@@ -48,11 +48,13 @@ public class RezervasyonDAO extends DataBase {
     public void createRezervasyon(Rezervasyon rz) {
 
         try {
-
+            System.out.println("try içi");
             Statement st = this.getConnection().createStatement();
             String query = "INSERT INTO rezervasyon VALUES ('" + rz.getMasaNo() + "'"
-                    + ",'" + rz.getTarih() +",'" + rz.getIsim() +",'" + rz.getSoyisim() + "','" + rz.getTelNo() + "')";
+                    + ",'" + rz.getTarih() +"','" + rz.getIsim() +"','" + rz.getSoyisim() + "','" + rz.getTelNo() + "')";
+            System.out.println("try içi2");
             int r = st.executeUpdate(query);
+            System.out.println("try içi3");
 
         } catch (Exception ex) {
             System.out.println(ex.getMessage());

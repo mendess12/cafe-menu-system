@@ -20,6 +20,28 @@ public class Rezervasyon {
         
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 41 * hash + this.rezervasyonId;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Rezervasyon other = (Rezervasyon) obj;
+        return this.rezervasyonId == other.rezervasyonId;
+    }
+    
     public Rezervasyon(short rezervasyonId,int masaNo, String tarih, String isim, String soyisim, String telNo) {
         this.rezervasyonId=rezervasyonId;
         this.masaNo = masaNo;
