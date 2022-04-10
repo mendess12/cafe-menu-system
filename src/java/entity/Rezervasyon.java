@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package entity;
-import java.util.Date;
 
 /**
  *
@@ -12,7 +11,7 @@ import java.util.Date;
 public class Rezervasyon {
     private short rezervasyonId;
     private int masaNo;
-    private Date tarih;
+    private String tarih;
     private String isim;
     private String soyisim;
     private String telNo;
@@ -21,7 +20,7 @@ public class Rezervasyon {
         
     }
 
-    public Rezervasyon(short rezervasyonId,int masaNo, Date tarih, String isim, String soyisim, String telNo) {
+    public Rezervasyon(short rezervasyonId,int masaNo, String tarih, String isim, String soyisim, String telNo) {
         this.rezervasyonId=rezervasyonId;
         this.masaNo = masaNo;
         this.tarih = tarih;
@@ -46,13 +45,15 @@ public class Rezervasyon {
         this.masaNo = masaNo;
     }
 
-    public Date getTarih() {
+    public String getTarih() {
         return tarih;
     }
 
-    public void setTarih(Date tarih) {
+    public void setTarih(String tarih) {
         this.tarih = tarih;
     }
+
+   
 
     
 

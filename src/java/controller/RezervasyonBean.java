@@ -13,32 +13,22 @@ import java.util.List;
 
 /**
  *
- * @author 1907h
+ * @author Safa
  */
 @Named(value = "rezervasyonBean")
 @SessionScoped
 public class RezervasyonBean implements Serializable {
-    private Rezervasyon entity;
+
     private RezervasyonDAO dao;
     private List<Rezervasyon> list;
+    private Rezervasyon entity;
 
-    public RezervasyonBean(){
+    public RezervasyonBean() {
 
-    }
-    public void create(){
-        getDao().createRezervasyon(getEntity());
-    }
-
-    public void delete(){
-        getDao().deleteRezervasyon(getEntity());
-    }
-
-    public void update(){
-        getDao().updateRezervasyon(getEntity());
     }
 
     public Rezervasyon getEntity() {
-        if(this.entity == null){
+        if (this.entity == null) {
             this.entity = new Rezervasyon();
         }
         return entity;
@@ -48,8 +38,25 @@ public class RezervasyonBean implements Serializable {
         this.entity = entity;
     }
 
+    public void create() {
+        this.getDao().createRezervasyon(getEntity());
+        this.entity = new Rezervasyon();
+    }
+
+    public void update() {
+        this.getDao().updateRezervasyon(entity);
+        entity = new Rezervasyon();
+    }
+
+    public void delete(Rezervasyon entity) {
+        this.getDao().deleteRezervasyon(entity);
+        entity = new Rezervasyon();
+
+    }
+
     public RezervasyonDAO getDao() {
-        if(this.dao == null){
+
+        if (dao == null) {
             this.dao = new RezervasyonDAO();
         }
         return dao;
@@ -67,7 +74,5 @@ public class RezervasyonBean implements Serializable {
     public void setList(List<Rezervasyon> list) {
         this.list = list;
     }
-
-
 
 }

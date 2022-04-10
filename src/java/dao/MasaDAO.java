@@ -35,7 +35,7 @@ public class MasaDAO extends DataBase {
             String query = "SELECT * FROM masa";
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
-                list.add(new Masa(rs.getInt("masa_no"),rs.getBoolean("musait_mi"), rs.getInt("kac_kisilik")));
+                list.add(new Masa(rs.getInt("masa_no"), rs.getBoolean("musait_mi"), rs.getInt("kac_kisilik")));
             }
 
         } catch (Exception ex) {
@@ -43,13 +43,31 @@ public class MasaDAO extends DataBase {
         }
         return list;
     }
+    
+    public Masa findByID(int id){
+        Masa c=null;
+        try {
+
+            Statement st = getConnection().createStatement();
+            String query = "SELECT * FROM masa where masa_no="+id;
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()) {
+                c=new Masa(rs.getInt("masa_no"), rs.getBoolean("musait_mi"), rs.getInt("kac_kisilik"));
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        return c;
+    }
+    
 
     public void createMasa(Masa ms) {
 
         try {
 
             Statement st = this.getConnection().createStatement();
-            String query = "INSERT INTO (masa_no,musait_mi,kac_kisilik) VALUES ('" + ms.getMasaNo()+ "'"
+            String query = "INSERT INTO masa VALUES ('" + ms.getMasaNo() + "'"
                     + ",'" + ms.isMusaitMi() + "','" + ms.getKacKisilik() + "')";
             int r = st.executeUpdate(query);
 
@@ -61,14 +79,10 @@ public class MasaDAO extends DataBase {
     public void updateMasa(Masa ms) {
 
         try {
-            
-            String query = "UPDATE masa SET musait_mi=?,kac_kisilik=? WHERE masa_no=?";
+
+            String query = "update masa set musait_mi='" + ms.isMusaitMi() + "',kac_kisilik='" + ms.getKacKisilik() + "' where masa_no=" + ms.getMasaNo();
             PreparedStatement pst = this.getConnection().prepareStatement(query);
-           
-            pst.setBoolean(1,ms.isMusaitMi());
-            pst.setInt(2,ms.getKacKisilik());
-            pst.setInt(3,ms.getMasaNo());
-            
+
             pst.executeUpdate();
 
         } catch (Exception ex) {

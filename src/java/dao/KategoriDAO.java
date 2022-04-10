@@ -49,7 +49,7 @@ public class KategoriDAO extends DataBase {
         try {
 
             Statement st = this.getConnection().createStatement();
-            String query = "INSERT INTO (kategori_id,tur) VALUES ('" + kt.getKategoriId()+ "'"
+            String query = "INSERT INTO kategori VALUES ('" + kt.getKategoriId()+ "'"
                     + ",'" + kt.getTur()+ "')";
             int r = st.executeUpdate(query);
 
@@ -62,11 +62,8 @@ public class KategoriDAO extends DataBase {
 
         try {
             
-            String query = "UPDATE kategori SET tur=? WHERE kategori_id=?";
+            String query = "update kategori set tur='"+kt.getTur()+"' where kategori_id="+kt.getKategoriId();
             PreparedStatement pst = this.getConnection().prepareStatement(query);
-           
-            pst.setString(1,kt.getTur());
-            pst.setInt(3,kt.getKategoriId());
             
             pst.executeUpdate();
 

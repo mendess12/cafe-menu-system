@@ -44,11 +44,14 @@ public class MasaBean implements Serializable {
     }
     
     public void update() {
-        this.getDao().updateMasa(getEntity());
+        this.getDao().updateMasa(entity);
+        entity = new Masa();
     }
     
-    public void delete() {
-        this.getDao().deleteMasa(getEntity());
+    public void delete(Masa entity) {
+        this.getDao().deleteMasa(entity);
+        entity = new Masa();
+
     }
     
     public MasaDAO getDao() {

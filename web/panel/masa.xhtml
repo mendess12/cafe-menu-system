@@ -9,8 +9,47 @@
         <h:outputScript library="js" name="bootstrap.js"/>
     </h:head>
     <h:body>
-        
-       
+
+        <div class="tab-pane fade show active" id="masa" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+
+            <h:form>
+                <h:dataTable class="table" border="2" value="#{masaBean.list}" var="list">
+
+                    <h:column>
+                        <f:facet name="header">#</f:facet>
+                            #{list.masaNo}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Durum</f:facet>
+                            #{list.musaitMi}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Kapasite</f:facet>
+                            #{list.kacKisilik}
+                    </h:column>
+                    <h:column>
+                        <h:commandButton action="#{masaBean.delete(list)}" value="Sil"/>
+                    </h:column>
+                    <h:column>
+                        <h:commandButton action="#{masaBean.setEntity(list)}" value="Güncelle"/>
+                    </h:column>
+
+
+                </h:dataTable>
+
+                <h:commandButton action="adminPanel.xhtml" value="Yeni Kayıt"/>
+
+            </h:form>
+        </div>
+        <hr />
+        <h:form>
+            masaNo <h:inputText value="#{masaBean.entity.masaNo}" />
+            musait mi <h:inputText value="#{masaBean.entity.musaitMi}" />
+            kapasite <h:inputText value="#{masaBean.entity.kacKisilik}" />
+            <h:commandButton action="#{masaBean.create()}" value="Yeni Kayıt"/>
+            <h:commandButton action="#{masaBean.update()}" value="update"/>
+        </h:form>
+
     </h:body>
 </html>
 
