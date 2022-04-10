@@ -10,7 +10,7 @@ package entity;
  */
 public class Rezervasyon {
     private short rezervasyonId;
-    private int masaNo;
+    private Masa masa;
     private String tarih;
     private String isim;
     private String soyisim;
@@ -22,8 +22,8 @@ public class Rezervasyon {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 41 * hash + this.rezervasyonId;
+        int hash = 7;
+        hash = 79 * hash + this.rezervasyonId;
         return hash;
     }
 
@@ -41,15 +41,19 @@ public class Rezervasyon {
         final Rezervasyon other = (Rezervasyon) obj;
         return this.rezervasyonId == other.rezervasyonId;
     }
-    
-    public Rezervasyon(short rezervasyonId,int masaNo, String tarih, String isim, String soyisim, String telNo) {
-        this.rezervasyonId=rezervasyonId;
-        this.masaNo = masaNo;
+
+    public Rezervasyon(short rezervasyonId, Masa masa, String tarih, String isim, String soyisim, String telNo) {
+        this.rezervasyonId = rezervasyonId;
+        this.masa = masa;
         this.tarih = tarih;
         this.isim = isim;
         this.soyisim = soyisim;
         this.telNo = telNo;
     }
+
+    
+    
+    
 
     public short getRezervasyonId() {
         return rezervasyonId;
@@ -59,13 +63,15 @@ public class Rezervasyon {
         this.rezervasyonId = rezervasyonId;
     }
 
-    public int getMasaNo() {
-        return masaNo;
+    public Masa getMasa() {
+        return masa;
     }
 
-    public void setMasaNo(int masaNo) {
-        this.masaNo = masaNo;
+    public void setMasa(Masa masa) {
+        this.masa = masa;
     }
+
+    
 
     public String getTarih() {
         return tarih;
@@ -105,7 +111,9 @@ public class Rezervasyon {
 
     @Override
     public String toString() {
-        return "Rezervasyon{" + "rezervasyonId=" + rezervasyonId + ", masaNo=" + masaNo + ", tarih=" + tarih + ", isim=" + isim + ", soyisim=" + soyisim + ", telNo=" + telNo + '}';
+        return "Rezervasyon{" + "rezervasyonId=" + rezervasyonId + ", masa=" + masa + ", tarih=" + tarih + ", isim=" + isim + ", soyisim=" + soyisim + ", telNo=" + telNo + '}';
     }
+
+    
     
 }
