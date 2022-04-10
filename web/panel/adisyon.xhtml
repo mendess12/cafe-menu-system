@@ -15,6 +15,20 @@
             <h:commandButton style="margin:14px 0px 0px 4px;" action="/index.xhmtl" value="BACK"/>
         </h:form>
 
+        <hr />
+        <h:form>
+            Masa:
+            <h:selectOneMenu value="#{adisyonBean.entity.masa}" converter="masaConverter">
+                <f:selectItems value="#{masaBean.list}" var="m" itemValue="#{m}" itemLabel="#{m.masaNo}">
+                </f:selectItems>
+            </h:selectOneMenu>
+
+            Tutar: <h:inputText value="#{adisyonBean.entity.tutar}" />
+            <h:commandButton action="#{adisyonBean.create()}" value="Yeni Kayıt"/>
+            <h:commandButton action="#{adisyonBean.update()}" value="update"/>
+        </h:form>
+        <hr/>
+
         <div class="tab-pane fade" id="adisyon" role="tabpanel" aria-labelledby="v-pills-messages-tab">
             <h:form>
                 <h:dataTable class="table" border="2" value="#{adisyonBean.list}" var="list">
@@ -42,24 +56,6 @@
                 </h:dataTable>
             </h:form>
         </div>
-        <hr />
-        <h:form>
-
-
-
-            <br/>
-            AdisyonId: <h:inputText value="#{adisyonBean.entity.adisyonId}" />
-            Masa:
-            <h:selectOneMenu value="#{adisyonBean.entity.masa}" converter="masaConverter">
-                <f:selectItems value="#{masaBean.list}" var="m" itemValue="#{m}" itemLabel="#{m.masaNo}">
-                </f:selectItems>
-            </h:selectOneMenu>
-            Tutar: <h:inputText value="#{adisyonBean.entity.tutar}" />
-            <h:commandButton action="#{adisyonBean.create()}" value="Yeni Kayıt"/>
-            <h:commandButton action="#{adisyonBean.update()}" value="update"/>
-        </h:form>
-
-
 
     </h:body>
 </html>

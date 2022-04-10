@@ -74,7 +74,7 @@ public class AdisyonDAO extends DataBase {
         try {
 
             Statement st = this.getConnection().createStatement();
-            String query = "INSERT INTO adisyon(adisyon_id,masa_no,tutar) VALUES ('" + adisyon.getAdisyonId() + "','" + adisyon.getMasa().getMasaNo() + "','" + adisyon.getTutar() + "')";
+            String query = "INSERT INTO adisyon(masa_no,tutar) VALUES ('" + adisyon.getMasa().getMasaNo() + "','" + adisyon.getTutar() + "')";
             st.executeUpdate(query);
 
         } catch (Exception ex) {

@@ -11,8 +11,8 @@ package entity;
 public class MasaSiparis {
 
     private int siparisId;
-    private int adisyonId;
-    private int urunId;
+    private Adisyon adisyon;
+    private Urun urun;
     private int tutar;
     private boolean siparisDurumu;
 
@@ -20,10 +20,10 @@ public class MasaSiparis {
 
     }
 
-    public MasaSiparis(int siparisId, int adisyonId, int urunId, int tutar, boolean siparisDurumu) {
+    public MasaSiparis(int siparisId, Adisyon adisyon, Urun urun, int tutar, boolean siparisDurumu) {
         this.siparisId = siparisId;
-        this.adisyonId = adisyonId;
-        this.urunId = urunId;
+        this.adisyon = adisyon;
+        this.urun = urun;
         this.tutar = tutar;
         this.siparisDurumu = siparisDurumu;
     }
@@ -36,20 +36,20 @@ public class MasaSiparis {
         this.siparisId = siparisId;
     }
 
-    public int getAdisyonId() {
-        return adisyonId;
+    public Adisyon getAdisyon() {
+        return adisyon;
     }
 
-    public void setAdisyonId(int adisyonId) {
-        this.adisyonId = adisyonId;
+    public void setAdisyon(Adisyon adisyon) {
+        this.adisyon = adisyon;
     }
 
-    public int getUrunId() {
-        return urunId;
+    public Urun getUrun() {
+        return urun;
     }
 
-    public void setUrunId(int urunId) {
-        this.urunId = urunId;
+    public void setUrun(Urun urun) {
+        this.urun = urun;
     }
 
     public int getTutar() {
@@ -70,7 +70,7 @@ public class MasaSiparis {
 
     @Override
     public String toString() {
-        return "MasaSiparis{" + "siparisId=" + siparisId + ", adisyonId=" + adisyonId + ", urunId=" + urunId + ", tutar=" + tutar + ", siparisDurumu=" + siparisDurumu + '}';
+        return "MasaSiparis{" + "siparisId=" + siparisId + ", adisyonId=" + adisyon + ", urunId=" + urun + ", tutar=" + tutar + ", siparisDurumu=" + siparisDurumu + '}';
     }
 
 }

@@ -73,8 +73,8 @@ public class UrunDAO extends DataBase {
         try {
 
             Statement st = this.getConnection().createStatement();
-            String query = "INSERT INTO urun(urun_id,kategori_id,isim,fiyat,aciklama) VALUES ('" + urun.getUrunId() + "'"
-                    + ",'" + urun.getKategori().getKategoriId() + "','" + urun.getIsim() + "','" + urun.getFiyat() + "','" + urun.getAciklama() + "')";
+            String query = "INSERT INTO urun(kategori_id,isim,fiyat,aciklama) VALUES  (" + urun.getKategori().getKategoriId() + ",'" + urun.getIsim() + "'," 
+                    + urun.getFiyat() + ",'" + urun.getAciklama() + "')";
             st.executeUpdate(query);
 
         } catch (Exception ex) {

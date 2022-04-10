@@ -15,6 +15,22 @@
             <h:commandButton style="margin:14px 0px 0px 4px;" action="/index.xhmtl" value="BACK"/>
         </h:form>
 
+        <hr />
+        <h:form>
+            Kategori:
+            <h:selectOneMenu value="#{urunBean.entity.kategori}" converter="kategoriConverter">
+                <f:selectItems value="#{kategoriBean.list}" var="k" itemValue="#{k}" itemLabel="#{k.tur}">
+                </f:selectItems>
+            </h:selectOneMenu>
+            İsim: <h:inputText value="#{urunBean.entity.isim}" />
+            Fiyat: <h:inputText value="#{urunBean.entity.fiyat}" />
+            Açıklama: <h:inputTextarea value="#{urunBean.entity.aciklama}"/>
+
+            <h:commandButton action="#{urunBean.create()}" value="Yeni Kayıt"/>
+            <h:commandButton action="#{urunBean.update()}" value="update"/>
+        </h:form>
+        <hr/>
+
         <div class="tab-pane fade" id="urun" role="tabpanel" aria-labelledby="v-pills-messages-tab">
             <h:form>
                 <h:dataTable class="table" border="2" value="#{urunBean.list}" var="list">
@@ -50,21 +66,7 @@
                 </h:dataTable>
             </h:form>
         </div>
-        <hr />
-        <h:form>
-            Urun Id: <h:inputText value="#{urunBean.entity.urunId}" />
-            Kategori:
-            <h:selectOneMenu value="#{urunBean.entity.kategori}" converter="kategoriConverter">
-                <f:selectItems value="#{kategoriBean.list}" var="k" itemValue="#{k}" itemLabel="#{k.kategoriId}">
-                </f:selectItems>
-            </h:selectOneMenu>
-            İsim: <h:inputText value="#{urunBean.entity.isim}" />
-            Fiyat: <h:inputText value="#{urunBean.entity.fiyat}" />
-            Açıklama: <h:inputTextarea value="#{urunBean.entity.aciklama}"/>
 
-            <h:commandButton action="#{urunBean.create()}" value="Yeni Kayıt"/>
-            <h:commandButton action="#{urunBean.update()}" value="update"/>
-        </h:form>
 
     </h:body>
 </html>

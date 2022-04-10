@@ -4,7 +4,9 @@
  */
 package dao;
 
+import entity.Adisyon;
 import entity.MasaSiparis;
+import entity.Urun;
 import java.util.List;
 import util.DataBase;
 import java.sql.Connection;
@@ -20,6 +22,8 @@ import java.sql.PreparedStatement;
 public class MasaSiparisDAO extends DataBase {
 
     private Connection connection;
+    private AdisyonDAO adisyonDao;
+    private UrunDAO urunDao;
 
     public MasaSiparisDAO() {
 
@@ -35,8 +39,12 @@ public class MasaSiparisDAO extends DataBase {
             String query = "SELECT * FROM masa_siparis";
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
-                list.add(new MasaSiparis(rs.getInt("siparis_id"), rs.getInt("adisyon_id"),
-                        rs.getInt("urun_id"), rs.getInt("tutar"), rs.getBoolean("siparis_durumu")));
+
+                Adisyon adisyon = this.getAdisyonDao().findByID(rs.getInt("adisyon_id"));
+                Urun urun = this.getUrunDao().findByID(rs.getInt("urun_id"));
+
+                list.add(new MasaSiparis(rs.getInt("siparis_id"), adisyon,
+                        urun, rs.getInt("tutar"), rs.getBoolean("siparis_durumu")));
             }
 
         } catch (Exception ex) {
@@ -50,8 +58,8 @@ public class MasaSiparisDAO extends DataBase {
         try {
 
             Statement st = this.getConnection().createStatement();
-            String query = "INSERT INTO masa_siparis(siparis_id,adisyon_id,urun_id,tutar,siparis_durumu) VALUES ('" + ms.getSiparisId() + "'"
-                    + ",'" + ms.getAdisyonId() + "','" + ms.getUrunId() + "','" + ms.getTutar() + "','" + ms.isSiparisDurumu() + "')";
+            String query = "INSERT INTO masa_siparis(adisyon_id,urun_id,tutar,siparis_durumu) VALUES ('" + ms.getAdisyon().getAdisyonId() + "','" + ms.getUrun().getUrunId() + "','"
+                    + ms.getTutar() + "','" + ms.isSiparisDurumu() + "')";
             st.executeUpdate(query);
 
         } catch (Exception ex) {
@@ -66,8 +74,8 @@ public class MasaSiparisDAO extends DataBase {
             String query = "UPDATE masa_siparis SET adisyon_id=?,urun_id=?,tutar=?,siparis_durumu=? WHERE siparis_id=?";
             PreparedStatement pst = this.getConnection().prepareStatement(query);
 
-            pst.setInt(1, ms.getAdisyonId());
-            pst.setInt(2, ms.getUrunId());
+            pst.setInt(1, ms.getAdisyon().getAdisyonId());
+            pst.setInt(2, ms.getUrun().getUrunId());
             pst.setInt(3, ms.getTutar());
             pst.setBoolean(4, ms.isSiparisDurumu());
             pst.setInt(5, ms.getSiparisId());
@@ -101,6 +109,28 @@ public class MasaSiparisDAO extends DataBase {
 
     public void setConnection(Connection connection) {
         this.connection = connection;
+    }
+
+    public AdisyonDAO getAdisyonDao() {
+        if (adisyonDao == null) {
+            this.adisyonDao = new AdisyonDAO();
+        }
+        return adisyonDao;
+    }
+
+    public void setAdisyonDao(AdisyonDAO adisyonDao) {
+        this.adisyonDao = adisyonDao;
+    }
+
+    public UrunDAO getUrunDao() {
+        if (urunDao == null) {
+            this.urunDao = new UrunDAO();
+        }
+        return urunDao;
+    }
+
+    public void setUrunDao(UrunDAO urunDao) {
+        this.urunDao = urunDao;
     }
 
 }

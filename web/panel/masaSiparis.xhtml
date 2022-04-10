@@ -17,7 +17,23 @@
 
         <hr />
 
-
+        <h:form>
+            Adisyon:
+            <h:selectOneMenu value="#{masaSiparisBean.entity.adisyon}" converter="adisyonConverter">
+                <f:selectItems value="#{adisyonBean.list}" var="a" itemValue="#{a}" itemLabel="#{a.adisyonId}">
+                </f:selectItems>
+            </h:selectOneMenu>
+            Urun:
+            <h:selectOneMenu value="#{masaSiparisBean.entity.urun}" converter="urunConverter">
+                <f:selectItems value="#{urunBean.list}" var="u" itemValue="#{u}" itemLabel="#{u.isim}">
+                </f:selectItems>
+            </h:selectOneMenu>
+            Tutar: <h:inputText value="#{masaSiparisBean.entity.tutar}" />
+            Siparis Durumu: <h:inputText value="#{masaSiparisBean.entity.siparisDurumu}" />
+            <h:commandButton action="#{masaSiparisBean.create()}" value="Yeni Kayıt"/>
+            <h:commandButton action="#{masaSiparisBean.update()}" value="update"/>
+        </h:form>
+        <hr/>
         <h:form>
             <h:dataTable class="table" border="2" value="#{masaSiparisBean.list}" var="list">
 
@@ -27,11 +43,11 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header">Adisyon Id</f:facet>
-                        #{list.adisyonId}
+                        #{list.adisyon.adisyonId}
                 </h:column>
                 <h:column>
                     <f:facet name="header">Urun Id</f:facet>
-                        #{list.urunId}
+                        #{list.urun.urunId}
                 </h:column>
                 <h:column>
                     <f:facet name="header">Tutar</f:facet>
@@ -51,19 +67,6 @@
 
             </h:dataTable>
         </h:form>
-
-        <hr/>
-
-        <h:form>
-            Siparis Id: <h:inputText value="#{masaSiparisBean.entity.siparisId}" />
-            Adisyon Id: <h:inputText value="#{masaSiparisBean.entity.adisyonId}" />
-            Urun Id: <h:inputText value="#{masaSiparisBean.entity.urunId}" />
-            Tutar: <h:inputText value="#{masaSiparisBean.entity.tutar}" />
-            Siparis Durumu: <h:inputText value="#{masaSiparisBean.entity.siparisDurumu}" />
-            <h:commandButton action="#{masaSiparisBean.create()}" value="Yeni Kayıt"/>
-            <h:commandButton action="#{masaSiparisBean.update()}" value="update"/>
-        </h:form>
-
 
     </h:body>
 </html>
