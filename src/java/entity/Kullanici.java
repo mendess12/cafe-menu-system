@@ -9,28 +9,36 @@ package entity;
  * @author 1907h
  */
 public class Kullanici {
-    
+
     private short id;
-    private short kullaniciId;
+    private KullaniciTuru kullaniciTuru;
     private String password;
     private String isim;
     private String soyisim;
     private String adres;
-    
-    public Kullanici(){
-        
+
+    public Kullanici() {
+
     }
 
-    public Kullanici(short id, short kullaniciId, String password, String isim, String soyisim, String adres) {
-        this.kullaniciId = kullaniciId;
+    public Kullanici(short id, KullaniciTuru kullaniciTuru, String password, String isim, String soyisim, String adres) {
+        this.id = id;
+        this.kullaniciTuru = kullaniciTuru;
         this.password = password;
         this.isim = isim;
         this.soyisim = soyisim;
         this.adres = adres;
-        this.id = id;
     }
-    
-    
+
+    public KullaniciTuru getKullaniciTuru() {
+        if(kullaniciTuru == null)
+            this.kullaniciTuru = new KullaniciTuru();
+        return kullaniciTuru;
+    }
+
+    public void setKullaniciTuru(KullaniciTuru kullaniciTuru) {
+        this.kullaniciTuru = kullaniciTuru;
+    }
 
     public short getId() {
         return id;
@@ -38,14 +46,6 @@ public class Kullanici {
 
     public void setId(short id) {
         this.id = id;
-    }
-
-    public short getKullaniciId() {
-        return kullaniciId;
-    }
-
-    public void setKullaniciId(short kullaniciId) {
-        this.kullaniciId = kullaniciId;
     }
 
     public String getPassword() {
@@ -81,10 +81,35 @@ public class Kullanici {
     }
 
     @Override
-    public String toString() {
-        return "Kullanici{" + "id=" + id + ", kullaniciId=" + kullaniciId + ", password=" + password + ", isim=" + isim + ", soyisim=" + soyisim + ", adres=" + adres + '}';
+    public int hashCode() {
+        int hash = 7;
+        hash = 37 * hash + this.id;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Kullanici other = (Kullanici) obj;
+        return this.id == other.id;
     }
 
     
     
+    
+    @Override
+    public String toString() {
+        return "Kullanici{" + "id=" + id + ", kullaniciTuru=" + kullaniciTuru + ", password=" + password + ", isim=" + isim + ", soyisim=" + soyisim + ", adres=" + adres + '}';
+    }
+
+    
+
 }

@@ -12,17 +12,16 @@ import java.sql.Statement;
  * @author 1907h
  */
 public abstract class DataBase {
-    
+    private Connection conn = null;
     protected Connection getConnect(){
-        Connection conn = null;
-        
-        try{
-            Class.forName("org.postgresql.Driver");
-            conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/cmsdb", "root", "12345");
-        } catch(Exception e){
-            System.out.println(e.getMessage());
+        if(conn == null){
+            try{
+                Class.forName("org.postgresql.Driver");
+                conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/cmsdb", "root", "12345");
+            } catch(Exception e){
+                System.out.println(e.getMessage());
+            }
         }
-        
         return conn;
     }
     

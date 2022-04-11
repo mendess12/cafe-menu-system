@@ -4,52 +4,52 @@
  */
 package entity;
 
+import java.util.List;
+
 /**
  *
  * @author 1907h
  */
 public class PaketSiparis {
-    private short siparisNo;
-    private int kullaniciId;
-    private int urunId;
+    private Kullanici kullanici;
     private int tutar;
+   
+    private List<Urun> selectedList;
     
     public PaketSiparis(){
         
         
     }
 
-    public PaketSiparis(short siparisNo, int kullaniciId, int urunId, int tutar) {
-        this.siparisNo = siparisNo;
-        this.kullaniciId = kullaniciId;
-        this.urunId = urunId;
+    public PaketSiparis(Kullanici kullanici, int tutar, List<Urun> selectedList) {
+        this.kullanici = kullanici;
         this.tutar = tutar;
+        this.selectedList = selectedList;
+    }
+
+    
+
+    public Kullanici getKullanici() {
+        return kullanici;
+    }
+
+    public void setKullanici(Kullanici kullanici) {
+        this.kullanici = kullanici;
     }
     
-    public short getSiparisNo() {
-        return siparisNo;
+    
+    
+    public List<Urun> getSelectedList() {
+        return selectedList;
     }
 
-    public void setSiparisNo(short siparisNo) {
-        this.siparisNo = siparisNo;
+    public void setSelectedList(List<Urun> selectedList) {
+        this.selectedList = selectedList;
     }
 
-    public int getKullaniciId() {
-        return kullaniciId;
-    }
-
-    public void setKullaniciId(int kullaniciId) {
-        this.kullaniciId = kullaniciId;
-    }
-
-    public int getUrunId() {
-        return urunId;
-    }
-
-    public void setUrunId(int urunId) {
-        this.urunId = urunId;
-    }
-
+    
+    
+    
     public int getTutar() {
         return tutar;
     }
@@ -57,6 +57,8 @@ public class PaketSiparis {
     public void setTutar(int tutar) {
         this.tutar = tutar;
     }
+
+    
     
     
     

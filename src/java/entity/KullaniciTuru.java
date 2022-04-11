@@ -37,6 +37,28 @@ public class KullaniciTuru {
     public void setKullanici(String kullanici) {
         this.kullanici = kullanici;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 31 * hash + this.kullaniciId;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final KullaniciTuru other = (KullaniciTuru) obj;
+        return this.kullaniciId == other.kullaniciId;
+    }
     
     
     

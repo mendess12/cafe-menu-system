@@ -4,8 +4,11 @@
  */
 package dao;
 
+
+import entity.Kategori;
 import entity.Kullanici;
 import entity.PaketSiparis;
+import entity.Urun;
 import util.DataBase;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,6 +25,9 @@ import java.util.List;
 public class PaketSiparisDAO extends DataBase{
     
     private Connection connection;
+    private KullaniciDAO kullaniciDAO;
+    private UrunDAO urunDAO;
+    private KategoriDAO kategoriDAO;
     
     public PaketSiparisDAO(){
         
@@ -32,12 +38,35 @@ public class PaketSiparisDAO extends DataBase{
         try {
             Statement st = getConnection().createStatement();
             
-            String query = "SELECT * FROM paket_siparis";
-            ResultSet rs = st.executeQuery(query);
+            String query_1 = "SELECT kullanici_id as k,  FROM paket_siparis GROUP BY kullanici_id";
+            String query_2;
             
-            while(rs.next()){
-                list.add(new PaketSiparis(rs.getShort("siparis_no"), rs.getInt("kullanici_id"), 
-                    rs.getInt("urun_id"), rs.getInt("tutar")));
+            ResultSet rs_1 = st.executeQuery(query_1);
+            ResultSet rs_2;
+            
+            Urun u;
+            Kullanici kullanici;
+            Kategori k;
+            PaketSiparis ps;
+            
+            int tutar = 0;
+            int id;
+            
+            while(rs_1.next()){
+                ps = new PaketSiparis();
+                id = rs_1.getInt("k");
+                query_2 = "SELECT * FROM urun WHERE kullanici_id=" + id;
+                rs_2 = st.executeQuery(query_2);
+                while(rs_2.next()){
+                    k = kategoriDAO.findByID(rs_2.getInt("kategori_id"));
+                    u = new Urun(rs_2.getShort("urun_id"), k, rs_2.getString("isim"), rs_2.getInt("fiyat"), rs_2.getString("aciklama"));
+                    ps.getSelectedList().add(u);
+                    tutar += rs_2.getInt("fiyat");
+                }
+                
+                ps.setKullanici(kullaniciDAO.findById(id));
+                ps.setTutar(tutar);
+                list.add(ps);
             }
             
         } catch (SQLException ex) {
@@ -52,8 +81,8 @@ public class PaketSiparisDAO extends DataBase{
             String query = "INSERT INTO paket_siparis(kullanici_id, urun_id, tutar) VALUES (?, ?, ?)";
             PreparedStatement pst = getConnection().prepareStatement(query);
             
-            pst.setInt(1, paketSiparis.getKullaniciId());
-            pst.setInt(2, paketSiparis.getUrunId());
+            pst.setShort(1, paketSiparis.getKullanici().getId());
+            pst.setInt(2, paketSiparis.getUrun().getUrunId());
             pst.setInt(3, paketSiparis.getTutar());
             
             pst.executeUpdate();
@@ -70,12 +99,12 @@ public class PaketSiparisDAO extends DataBase{
         String query = "UPDATE paket_siparis SET kullanici_id=?, urun_id=?, tutar=? WHERE siparis_no=?";
         try {
             PreparedStatement pst = getConnection().prepareStatement(query);
-            
+            /*
             pst.setInt(1, paketSiparis.getKullaniciId());
             pst.setInt(2, paketSiparis.getUrunId());
             pst.setInt(3, paketSiparis.getTutar());
             pst.setShort(4, paketSiparis.getSiparisNo());
-            
+            */
             pst.executeUpdate();
             
         } catch (SQLException ex) {
@@ -102,6 +131,37 @@ public class PaketSiparisDAO extends DataBase{
 
     public void setConnection(Connection connection) {
         this.connection = connection;
+    }
+
+    public KullaniciDAO getKullaniciDAO() {
+        if(this.kullaniciDAO == null)
+            this.kullaniciDAO = new KullaniciDAO();
+        return kullaniciDAO;
+    }
+
+    public void setKullaniciDAO(KullaniciDAO kullaniciDAO) {
+        this.kullaniciDAO = kullaniciDAO;
+    }
+
+    public UrunDAO getUrunDAO() {
+        if(this.urunDAO == null)
+            this.urunDAO = new UrunDAO();
+        return urunDAO;
+    }
+
+    public void setUrunDAO(UrunDAO urunDAO) {
+        this.urunDAO = urunDAO;
+    }
+
+    public KategoriDAO getKategoriDAO() {
+        if(this.kategoriDAO == null){
+            this.kategoriDAO = new KategoriDAO();
+        }
+        return kategoriDAO;
+    }
+
+    public void setKategoriDAO(KategoriDAO kategoriDAO) {
+        this.kategoriDAO = kategoriDAO;
     }
     
     

@@ -25,15 +25,21 @@ public class KullaniciBean implements Serializable {
 
     public void create(){
         getDao().createKullanici(getEntity());
+        setEntity(null);
     }
     
-    public void delete(Kullanici c){
-        getDao().deleteKullanici(c);
+    public void delete(Kullanici kullanici){
+        getDao().deleteKullanici(kullanici);
     }
     
     
     public void update(){
         getDao().updateKullanici(getEntity());
+        setEntity(null);
+    }
+    
+    public void clear(){
+        setEntity(null);
     }
     
     public Kullanici getEntity() {

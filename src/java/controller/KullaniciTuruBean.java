@@ -29,14 +29,20 @@ public class KullaniciTuruBean implements Serializable {
     
     public void create(){
         getDao().createKullaniciTuru(getEntity());
+        setEntity(null);
     }
     
-    public void update(KullaniciTuru kullaniciTuru){
-        getDao().updateKullaniciTuru(kullaniciTuru);
+    public void clear(){
+        setEntity(null);
+    }
+    
+    public void update(){
+        getDao().updateKullaniciTuru(getEntity());
+        setEntity(null);
     }
 
-    public void delete(){
-        getDao().deleteKullaniciTuru(getEntity());
+    public void delete(KullaniciTuru kullaniciTuru){
+        getDao().deleteKullaniciTuru(kullaniciTuru);
     }
     
     public KullaniciTuru getEntity() {

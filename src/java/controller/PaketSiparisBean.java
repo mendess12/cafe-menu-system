@@ -5,10 +5,13 @@
 package controller;
 
 import dao.PaketSiparisDAO;
+import entity.Kullanici;
 import entity.PaketSiparis;
+import entity.Urun;
 import jakarta.inject.Named;
 import jakarta.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,11 +26,15 @@ public class PaketSiparisBean implements Serializable {
     private PaketSiparisDAO dao;
     private List<PaketSiparis> list;
     
+    
+    
     public PaketSiparisBean() {
+        
     }
     
     public void create(){
         getDao().createPaketSiparis(getEntity());
+        setEntity(null);
     }
     
     public void delete(PaketSiparis paketSiparis){
@@ -36,6 +43,11 @@ public class PaketSiparisBean implements Serializable {
     
     public void update(){
         getDao().updatePaketSiparis(getEntity());
+        setEntity(null);
+    }
+    
+    public void clear(){
+        setEntity(null);
     }
 
     public PaketSiparis getEntity() {
@@ -68,6 +80,6 @@ public class PaketSiparisBean implements Serializable {
     public void setList(List<PaketSiparis> list) {
         this.list = list;
     }
-    
+
     
 }

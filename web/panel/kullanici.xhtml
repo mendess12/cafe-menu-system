@@ -2,15 +2,77 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
     <h:head>
         <title>Facelet Title</title>
         <h:outputStylesheet library="css" name="bootstrap.css"/>
         <h:outputScript library="js" name="bootstrap.js"/>
     </h:head>
     <h:body>
-        
-       
+
+        <h:form style="margin: 14px 14px 14px 14px">
+
+            <h:commandButton action="/index" value="Geri"/>
+            <hr/>
+            
+            <div align="center" style="margin-left: 80px; margin-right: 80px">
+                <h:outputText value="KULLANICI KAYIT FORMU" style="font-weight: bold"></h:outputText><br/><br/>
+                <h:inputText a:placeholder="İsim" value="#{kullaniciBean.entity.isim}"/><br/>
+                <h:inputText a:placeholder="Soyisim" value="#{kullaniciBean.entity.soyisim}"/><br/>
+                <h:inputText a:placeholder="Adres" value="#{kullaniciBean.entity.adres}"/><br/>
+                <h:inputText a:placeholder="Password" value="#{kullaniciBean.entity.password}" /><br/><br/>
+                <h:outputText value="POZİSYON &nbsp;&nbsp;&nbsp;&nbsp;" style="font-weight: bold" ></h:outputText>
+                <h:selectOneMenu value="#{kullaniciBean.entity.kullaniciTuru}" converter="kullaniciTuruConverter">
+                    <f:selectItems value="#{kullaniciTuruBean.list}" var="k" itemValue="#{k}" itemLabel="#{k.kullanici}"/>
+                </h:selectOneMenu>
+                <br/><br/>
+                <h:commandButton action="#{kullaniciBean.create}" rendered="#{kullaniciBean.entity.id == 0}" value="Yeni Kayıt"/>
+                <h:commandButton action="#{kullaniciBean.update}" rendered="#{kullaniciBean.entity.id != 0}" value="Kaydet"/>
+                <h:commandButton action="#{kullaniciBean.clear}" rendered="#{kullaniciBean.entity.id != 0}" value="Vazgeç"/>
+
+
+
+                <br/><br/>
+
+                <div style="width: auto; height: 250px; overflow-y: auto;">
+                    <h:dataTable styleClass="table" value="#{kullaniciBean.list}" var="list">
+                        <h:column>
+                            <f:facet name="header">ID</f:facet>
+                                #{list.id}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Pozisyon</f:facet>
+                                #{list.kullaniciTuru.kullanici}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Password</f:facet>
+                                #{list.password}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">İsim</f:facet>
+                                #{list.isim}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Soyisim</f:facet>
+                                #{list.soyisim}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Adres</f:facet>
+                                #{list.adres}
+                        </h:column>
+                        <h:column>
+                            <h:commandButton action="#{kullaniciBean.delete(list)}" value="Sil"/>
+                        </h:column>
+                        <h:column>
+                            <h:commandButton action="#{kullaniciBean.setEntity(list)}" value="Güncelle"/>
+                        </h:column>
+                        
+                    </h:dataTable>
+                </div>
+            </div>
+        </h:form>
+
     </h:body>
 </html>
 
