@@ -21,10 +21,59 @@ public class UrunBean implements Serializable {
 
     private UrunDAO dao;
     private List<Urun> list;
-    private Urun entity;
+    private Urun entity; 
+     
+    private int page = 1;
+    private int pageSize = 3;
+    private int pageCount;
+    
+    public void next(){
+        if(this.page == this.pageCount)
+            this.page = 1;
+        else
+            this.page++;
+    }
 
+    public void previous(){
+        if(this.page != 1)
+           this.page--;
+        
+    }    
+    
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public int getPageCount() {
+        
+        this.pageCount = (int) Math.ceil(this.dao.count()/(double)pageSize);
+        
+        return pageCount;
+    }
+
+    public void setPageCount(int pageCount) {
+        this.pageCount = pageCount;
+    }
+    
     public UrunBean() {
 
+    }
+    
+    public List<Urun> getUrunler(){
+        this.list = this.getDao().findAll(page, pageSize);
+        return list;
     }
 
     public void create() {
@@ -54,7 +103,7 @@ public class UrunBean implements Serializable {
     }
 
     public List<Urun> getList() {
-        list = getDao().getUrunList();
+        this.list = this.getDao().getUrunList();
 
         return list;
     }

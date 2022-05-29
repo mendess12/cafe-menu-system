@@ -82,7 +82,7 @@ public class PaketSiparisDAO extends DataBase{
             PreparedStatement pst = getConnection().prepareStatement(query);
             
             pst.setShort(1, paketSiparis.getKullanici().getId());
-            pst.setInt(2, paketSiparis.getUrun().getUrunId());
+            //pst.setInt(2, paketSiparis.getUrun().getUrunId());
             pst.setInt(3, paketSiparis.getTutar());
             
             pst.executeUpdate();
@@ -115,7 +115,7 @@ public class PaketSiparisDAO extends DataBase{
     public void deletePaketSiparis(PaketSiparis paketSiparis){
         try {
             Statement st = getConnection().createStatement();
-            st.executeUpdate("DELETE FROM paket_siparis WHERE id=" + paketSiparis.getSiparisNo());
+           // st.executeUpdate("DELETE FROM paket_siparis WHERE id=" + paketSiparis.getSiparisNo());
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }

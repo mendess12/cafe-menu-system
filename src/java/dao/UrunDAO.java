@@ -49,17 +49,22 @@ public class UrunDAO extends DataBase {
     public List<Urun> getUrunList() {
 
         List<Urun> list = new ArrayList();
-
+      
         try {
 
             Statement st = getConnection().createStatement();
-            String query = "SELECT * FROM urun";
+            String query = "SELECT * FROM urun order by urun_id";
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
 
                 Kategori kategori = this.getKategoriDao().findByID(rs.getInt("kategori_id"));
 
-                list.add(new Urun(rs.getInt("urun_id"), kategori, rs.getString("isim"), rs.getInt("fiyat"), rs.getString("aciklama")));
+                list.add(new Urun(
+                        rs.getInt("urun_id"), 
+                        kategori, 
+                        rs.getString("isim"), 
+                        rs.getInt("fiyat"), 
+                        rs.getString("aciklama")));
             }
 
         } catch (Exception ex) {
@@ -67,7 +72,56 @@ public class UrunDAO extends DataBase {
         }
         return list;
     }
+    
+    public List<Urun> findAll(int page, int pageSize) {
 
+        List<Urun> list = new ArrayList();
+        int start = (page-1)*pageSize;
+
+        try {
+
+            Statement st = getConnection().createStatement();
+            String query = "SELECT * FROM urun order by urun_id asc limit "+pageSize+" offset "+start;
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()) {
+
+                Kategori kategori = this.getKategoriDao().findByID(rs.getInt("kategori_id"));
+
+                list.add(new Urun(
+                        rs.getInt("urun_id"), 
+                        kategori, 
+                        rs.getString("isim"), 
+                        rs.getInt("fiyat"), 
+                        rs.getString("aciklama")));
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        return list;
+    }
+    
+    public int count(int page, int pageSize) {
+
+        int count = 0;     
+
+        try {
+
+            Statement st = getConnection().createStatement();
+            String query = "select count(urun_id) as urun_count from urun";
+            ResultSet rs = st.executeQuery(query);
+            rs.next();  
+            count = rs.getInt("urun_count");
+            
+            
+            System.out.println("-------------- count -----------"+count);
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        return count;
+    }
+    
     public void createUrun(Urun urun) {
 
         try {
@@ -135,6 +189,10 @@ public class UrunDAO extends DataBase {
 
     public void setKategoriDao(KategoriDAO kategoriDao) {
         this.kategoriDao = kategoriDao;
+    }
+
+    public double count() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

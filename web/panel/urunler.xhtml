@@ -10,31 +10,21 @@
     </h:head>
     <h:body>
 
-
         <h:form>
             <h:commandButton style="margin:14px 0px 0px 4px;" action="/index.xhmtl" value="BACK"/>
         </h:form>
-
-        <hr />
-        <h:form>
-            Kategori:
-            <h:selectOneMenu value="#{urunBean.entity.kategori}" converter="kategoriConverter">
-                <f:selectItems value="#{kategoriBean.list}" var="k" itemValue="#{k}" itemLabel="#{k.tur}">
-                </f:selectItems>
-            </h:selectOneMenu>
-            İsim: <h:inputText value="#{urunBean.entity.isim}" />
-            Fiyat: <h:inputText value="#{urunBean.entity.fiyat}" />
-            Açıklama: <h:inputTextarea value="#{urunBean.entity.aciklama}"/>
-
-            <h:commandButton action="#{urunBean.create()}" value="Yeni Kayıt"/>
-            <h:commandButton action="#{urunBean.update()}" value="update"/>
-        </h:form>
-        <hr/>
-
+     
+        <br> </br>
+        
         <div>
             <h:form>
-                <h:dataTable class="table" value="#{urunBean.list}" var="list">
-
+  
+                <div class="btn-group">
+                    <h:commandButton action="#{urunBean.previous()}" value="Previous" styleClass="btn btn-outline-dark"/>
+                    <h:commandButton action="#{urunBean.next()}" value="Next" styleClass="btn btn-outline-dark"/>
+                </div>
+                <br> </br>
+                <h:dataTable class="table" value="#{urunBean.getUrunler()}" var="list">
                     <h:column>
                         <f:facet name="header">#</f:facet>
                             #{list.urunId}
@@ -55,18 +45,35 @@
                         <f:facet name="header">Açıklama</f:facet>
                             #{list.aciklama}
                     </h:column>
-
                     <h:column>
                         <h:commandButton action="#{urunBean.delete(list)}" value="Sil"/>
                     </h:column>
                     <h:column>
                         <h:commandButton action="#{urunBean.setEntity(list)}" value="Güncelle"/>
                     </h:column>
-
                 </h:dataTable>
             </h:form>
         </div>
+       
+        <br> </br>
+     
+        <hr />
 
+        <h:form>
+            Kategori:
+            <h:selectOneMenu value="#{urunBean.entity.kategori}" converter="kategoriConverter">
+                <f:selectItems value="#{kategoriBean.list}" var="k" itemValue="#{k}" itemLabel="#{k.tur}">
+                </f:selectItems>
+            </h:selectOneMenu>
+            İsim: <h:inputText value="#{urunBean.entity.isim}" />
+            Fiyat: <h:inputText value="#{urunBean.entity.fiyat}" />
+            Açıklama: <h:inputTextarea value="#{urunBean.entity.aciklama}"/>
+
+            <h:commandButton action="#{urunBean.create()}" value="Yeni Kayıt"/>
+            <h:commandButton action="#{urunBean.update()}" value="update"/>
+        </h:form>
+
+        <hr/>
 
     </h:body>
 </html>
