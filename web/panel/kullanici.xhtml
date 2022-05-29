@@ -15,13 +15,26 @@
 
             <h:commandButton action="/index" value="Geri"/>
             <hr/>
-            
+
             <div align="center" style="margin-left: 80px; margin-right: 80px">
                 <h:outputText value="KULLANICI KAYIT FORMU" style="font-weight: bold"></h:outputText><br/><br/>
-                <h:inputText a:placeholder="İsim" value="#{kullaniciBean.entity.isim}"/><br/>
-                <h:inputText a:placeholder="Soyisim" value="#{kullaniciBean.entity.soyisim}"/><br/>
-                <h:inputText a:placeholder="Adres" value="#{kullaniciBean.entity.adres}"/><br/>
-                <h:inputText a:placeholder="Password" value="#{kullaniciBean.entity.password}" /><br/><br/>
+
+                <h:inputText id="uname" a:placeholder="İsim" validator="#{kullaniciBean.validateName}" value="#{kullaniciBean.entity.isim}"/>
+                <br></br>
+                <h:message for="uname" style="color: red;font-size: 10pt;"/>
+                <br></br>
+                <h:inputText id="sname" a:placeholder="Soyisim" validator="#{kullaniciBean.validateSurname}" value="#{kullaniciBean.entity.soyisim}"/>
+                <br></br>
+                <h:message for="sname" style="color: red;font-size: 10pt;"/>
+                <br></br>
+                <h:inputText id="adres" a:placeholder="Adres" validator="#{kullaniciBean.validateAddress}" value="#{kullaniciBean.entity.adres}"/>
+                <br></br>
+                <h:message for="adres" style="color: red;font-size: 10pt;"/>
+                <br></br>
+                <h:inputText id="pass" a:placeholder="Password" validator="#{kullaniciBean.validatePassword}" value="#{kullaniciBean.entity.password}" />
+                <br></br>
+                <h:message for="pass" style="color: red;font-size: 10pt;"/>
+                <br></br>
                 <h:outputText value="POZİSYON &nbsp;&nbsp;&nbsp;&nbsp;" style="font-weight: bold" ></h:outputText>
                 <h:selectOneMenu value="#{kullaniciBean.entity.kullaniciTuru}" converter="kullaniciTuruConverter">
                     <f:selectItems value="#{kullaniciTuruBean.list}" var="k" itemValue="#{k}" itemLabel="#{k.kullanici}"/>
@@ -32,45 +45,48 @@
                 <h:commandButton action="#{kullaniciBean.clear}" rendered="#{kullaniciBean.entity.id != 0}" value="Vazgeç"/>
 
 
-
-                <br/><br/>
-
-                <div style="width: auto; height: 250px; overflow-y: auto;">
-                    <h:dataTable styleClass="table" value="#{kullaniciBean.list}" var="list">
-                        <h:column>
-                            <f:facet name="header">ID</f:facet>
-                                #{list.id}
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">Pozisyon</f:facet>
-                                #{list.kullaniciTuru.kullanici}
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">Password</f:facet>
-                                #{list.password}
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">İsim</f:facet>
-                                #{list.isim}
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">Soyisim</f:facet>
-                                #{list.soyisim}
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">Adres</f:facet>
-                                #{list.adres}
-                        </h:column>
-                        <h:column>
-                            <h:commandButton action="#{kullaniciBean.delete(list)}" value="Sil"/>
-                        </h:column>
-                        <h:column>
-                            <h:commandButton action="#{kullaniciBean.setEntity(list)}" value="Güncelle"/>
-                        </h:column>
-                        
-                    </h:dataTable>
-                </div>
             </div>
+        </h:form>
+
+        <br/><br/>
+
+        <h:form>
+            <div style="width: auto; height: 250px; overflow-y: auto;">
+                <h:dataTable styleClass="table" value="#{kullaniciBean.list}" var="list">
+                    <h:column>
+                        <f:facet name="header">ID</f:facet>
+                            #{list.id}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Pozisyon</f:facet>
+                            #{list.kullaniciTuru.kullanici}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Password</f:facet>
+                            #{list.password}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">İsim</f:facet>
+                            #{list.isim}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Soyisim</f:facet>
+                            #{list.soyisim}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Adres</f:facet>
+                            #{list.adres}
+                    </h:column>
+                    <h:column>
+                        <h:commandButton action="#{kullaniciBean.delete(list)}" value="Sil"/>
+                    </h:column>
+                    <h:column>
+                        <h:commandButton action="#{kullaniciBean.setEntity(list)}" value="Güncelle"/>
+                    </h:column>
+
+                </h:dataTable>
+            </div>
+
         </h:form>
 
     </h:body>

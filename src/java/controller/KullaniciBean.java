@@ -4,6 +4,10 @@ import dao.KullaniciDAO;
 import entity.Kullanici;
 import jakarta.inject.Named;
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.validator.ValidatorException;
 import java.io.Serializable;
 import java.util.List;
 
@@ -18,9 +22,44 @@ public class KullaniciBean implements Serializable {
     private Kullanici entity;
     private KullaniciDAO dao;
     private List<Kullanici> list;
-    
+     
     public KullaniciBean(){
         
+    }
+    
+    public boolean validateName(FacesContext context,UIComponent cmp,Object value) throws ValidatorException{
+        String val = (String) value;
+        
+        if(val.isEmpty()){
+            throw new ValidatorException(new FacesMessage("Name Alanı Boş Olamaz!"));
+        }
+        return true;
+    }
+    public boolean validateSurname(FacesContext context,UIComponent cmp,Object value) throws ValidatorException{
+        String val = (String) value;
+        
+        if(val.isEmpty()){
+            throw new ValidatorException(new FacesMessage("Surname Alanı Boş Olamaz!"));
+        }
+        return true;
+    }
+    
+    public boolean validateAddress(FacesContext context,UIComponent cmp,Object value) throws ValidatorException{
+        String val = (String) value;
+        
+        if(val.isEmpty()){
+            throw new ValidatorException(new FacesMessage("Adres Alanı Boş Olamaz!"));
+        }
+        return true;
+    }
+    
+    public boolean validatePassword(FacesContext context,UIComponent cmp,Object value) throws ValidatorException{
+        String val = (String) value;
+        
+        if(val.isEmpty()){
+            throw new ValidatorException(new FacesMessage("Password Alanı Boş Olamaz!"));
+        }
+        return true;
     }
 
     public void create(){
