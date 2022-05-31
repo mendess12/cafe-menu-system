@@ -5,6 +5,8 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Facelet Title</title>
+        <h:outputStylesheet library="css" name="bootstrap.css"/>
+        <h:outputScript library="js" name="bootstrap.js"/>
     </h:head>
     <h:body>
       
@@ -22,7 +24,7 @@
         <br /><br />
         <h:form>
             
-            <h:commandButton style="margin:14px 0px 0px 4px;" action="logout?faces-redirect=true" value="LOGOUT"/>
+            <h:commandButton style="margin:14px 0px 0px 4px;" styleClass="btn btn-danger" action="logout?faces-redirect=true" value="LOGOUT"/>
             
         </h:form>
         
