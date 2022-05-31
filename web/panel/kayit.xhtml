@@ -7,5 +7,35 @@
     <h:head>
         <title>Kayit</title>
     </h:head>
+
+    <h:body>
+
+
+        <h:form style="margin: 14px 14px 14px 14px">
+            <hr/>
+            <div align="center" style="margin-left: 80px; margin-right: 80px">
+                <h:outputText value="KULLANICI KAYIT FORMU" style="font-weight: bold"></h:outputText>
+                <br/><br/>
+                <h:inputText id="uname" a:placeholder="İsim" value="#{kayitBean.entity.isim}"/>
+                <br></br>
+                <h:inputText id="sname" a:placeholder="Soyisim" value="#{kayitBean.entity.soyisim}"/>
+                <br></br>
+                <h:inputText id="adres" a:placeholder="Adres" value="#{kayitBean.entity.adres}"/>
+                <br></br>
+                <h:inputText id="pass" a:placeholder="Password" value="#{kayitBean.entity.password}" />
+                <br></br>
+                <h:outputText value="POZİSYON &nbsp;&nbsp;&nbsp;&nbsp;" style="font-weight: bold" ></h:outputText>
+                <h:selectOneMenu value="#{kayitBean.entity.kullaniciTuru}" converter="kullaniciTuruConverter">
+                    <f:selectItems value="#{kullaniciTuruBean.list}" var="k" itemValue="#{k}" itemLabel="#{k.kullanici}"/>
+                </h:selectOneMenu>
+                <br/><br/>
+                <h:commandButton action="#{kayitBean.create}" rendered="#{kayitBean.entity.id == 0}" value="Yeni Kayıt"/>
+            </div>
+        </h:form>
+
+
+
+    </h:body>
+
 </html>
 
