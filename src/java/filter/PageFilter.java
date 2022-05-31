@@ -39,8 +39,7 @@ public class PageFilter implements Filter{
         if(mevcutOturum != null){
             mevcutKullanici = (Kullanici)mevcutOturum.getAttribute("currentUser");
         }
-        
-        System.out.println("mevcut Kullanici" + mevcutKullanici);
+
         
         if(mevcutKullanici == null){
             if(uri.contains("index") || uri.contains("adisyon") || uri.contains("kategori")
@@ -65,8 +64,7 @@ public class PageFilter implements Filter{
             }
             
         }
-        
-        System.out.println("--YOL-- :" + uri.toString());
+
         
     }
 //

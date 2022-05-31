@@ -21,9 +21,6 @@ public class Document {
     public void setId(String id) {
         this.id = Long.valueOf(id);
     }
-
-    
-
     
     public String getFilePath() {
         return filePath;

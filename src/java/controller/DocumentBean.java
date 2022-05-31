@@ -10,16 +10,19 @@ import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
 import jakarta.servlet.http.Part;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author hp
  */
-@Named
+@Named(value="documentBean")
 @SessionScoped
 public class DocumentBean implements Serializable {
     private Document document;
@@ -28,21 +31,22 @@ public class DocumentBean implements Serializable {
     
     private Part doc;
     
-    private final String uploadTo="C:/Users/hp/Desktop/deneme"; 
-            
+    private final String uploadTo="C:\\Users\\1907h\\Desktop\\"; 
+
     public void upload(){
         try{
-            InputStream input=doc.getInputStream();
-            File f=new File(uploadTo+doc.getSubmittedFileName());
+            InputStream input = doc.getInputStream();
+            File f=new File(uploadTo + doc.getSubmittedFileName());
             Files.copy(input,f.toPath());
-            
             document=this.getDocument();
             document.setFilePath(f.getParent());
             document.setFileName(f.getName());
             document.setFileType(doc.getContentType());
             this.getDocumentDao().insert(document);
         }catch(Exception e){
-            System.out.println(e.getMessage());
+            System.out.println("hata");
+        } finally{
+            
         }
     }
     public String getUploadTo() {
@@ -79,6 +83,7 @@ public class DocumentBean implements Serializable {
     }
 
     public Part getDoc() {
+        
         return doc;
     }
 
