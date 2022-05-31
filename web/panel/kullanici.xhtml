@@ -13,12 +13,8 @@
         <h:form style="margin: 14px 14px 14px 14px">
             <h:commandButton action="/index" value="Geri"/>
         </h:form>
-        
-        <h:form style="margin: 14px 14px 14px 14px">
-            <h:commandButton action="login" value="Login Demo"/>
-        </h:form>
-        
-        <h:form style="margin: 14px 14px 14px 14px">
+
+        <h:form id="kayit-form" style="margin: 14px 14px 14px 14px">
             <hr/>
 
             <div align="center" style="margin-left: 80px; margin-right: 80px">
@@ -45,9 +41,17 @@
                     <f:selectItems value="#{kullaniciTuruBean.list}" var="k" itemValue="#{k}" itemLabel="#{k.kullanici}"/>
                 </h:selectOneMenu>
                 <br/><br/>
-                <h:commandButton action="#{kullaniciBean.create}" rendered="#{kullaniciBean.entity.id == 0}" value="Yeni Kayıt"/>
-                <h:commandButton action="#{kullaniciBean.update}" rendered="#{kullaniciBean.entity.id != 0}" value="Kaydet"/>
-                <h:commandButton action="#{kullaniciBean.clear}" rendered="#{kullaniciBean.entity.id != 0}" value="Vazgeç"/>
+                <h:commandButton action="#{kullaniciBean.create}" rendered="#{kullaniciBean.entity.id == 0}" value="Yeni Kayıt">
+                    <f:ajax execute="kayit-form" render="kayit-form table-form" />
+                </h:commandButton>
+
+                <h:commandButton action="#{kullaniciBean.update}" rendered="#{kullaniciBean.entity.id != 0}" value="Kaydet">
+                    <f:ajax execute="kayit-form" render="kayit-form table-form" />
+                </h:commandButton>
+
+                <h:commandButton action="#{kullaniciBean.clear}" rendered="#{kullaniciBean.entity.id != 0}" value="Vazgeç">
+                    <f:ajax execute="kayit-form" render="kayit-form" />
+                </h:commandButton>
 
 
             </div>
@@ -55,7 +59,7 @@
 
         <br/><br/>
 
-        <h:form>
+        <h:form id="table-form">
             <div style="width: auto; height: 250px; overflow-y: auto;">
                 <h:dataTable styleClass="table" value="#{kullaniciBean.list}" var="list">
                     <h:column>
@@ -83,10 +87,14 @@
                             #{list.adres}
                     </h:column>
                     <h:column>
-                        <h:commandButton action="#{kullaniciBean.delete(list)}" value="Sil"/>
+                        <h:commandButton action="#{kullaniciBean.delete(list)}" value="Sil">
+                            <f:ajax execute="table-form" render="table-form" />
+                        </h:commandButton>
                     </h:column>
                     <h:column>
-                        <h:commandButton action="#{kullaniciBean.setEntity(list)}" value="Güncelle"/>
+                        <h:commandButton action="#{kullaniciBean.setEntity(list)}" value="Güncelle">
+                            <f:ajax execute="table-form" render="kayit-form" />
+                        </h:commandButton>
                     </h:column>
 
                 </h:dataTable>

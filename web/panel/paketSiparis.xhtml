@@ -19,13 +19,9 @@
             <div align="center" style="margin-left: 80px; margin-right: 80px">
                 <h:outputText value="PAKET SİPARİŞ" style="font-weight: bold"></h:outputText><br/><br/>
                 
-                <h:selectOneMenu value="#{paketSiparisBean.kullanici}" converter="kullaniciConverter">
+                <h:selectOneMenu value="#{paketSiparisBean.entity}" converter="kullaniciConverter">
                     <f:selectItems value="#{paketSiparisBean.list}" var="l" itemValue="#{l}" itemLabel="#{l.isim}"/>
                 </h:selectOneMenu>
-                <h:selectManyMenu value="#{paketSiparisBean.kullanici}" converter="urunConverter">
-                    <f:selectItems value="#{paketSiparisBean.list}" var="l" itemValue="#{l}" itemLabel="#{l.isim}" />
-                </h:selectManyMenu>
-                
                 
                 <br/><br/>
                 <h:commandButton action="#{kullaniciBean.create}" rendered="#{kullaniciBean.entity.id == 0}" value="Yeni Kayıt"/>

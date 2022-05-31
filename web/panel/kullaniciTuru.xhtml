@@ -11,7 +11,7 @@
     </h:head>
     <h:body>
 
-        <h:form style="margin: 14px 14px 14px 14px">
+        <h:form id="kullaniciTuru-form" style="margin: 14px 14px 14px 14px">
 
             <h:commandButton action="/index" value="Geri"/>
             <hr/>
@@ -21,31 +21,45 @@
                 <h:inputText a:placeholder="Pozisyon" value="#{kullaniciTuruBean.entity.kullanici}"/><br/>
 
                 <br/><br/>
-                <h:commandButton action="#{kullaniciTuruBean.create}" rendered="#{kullaniciTuruBean.entity.kullaniciId == 0}" value="Yeni Kayıt"/>
-                <h:commandButton action="#{kullaniciTuruBean.update}" rendered="#{kullaniciTuruBean.entity.kullaniciId != 0}" value="Kaydet"/>
-                <h:commandButton action="#{kullaniciTuruBean.clear}" rendered="#{kullaniciTuruBean.entity.kullaniciId != 0}" value="Vazgeç"/>
+                <h:commandButton action="#{kullaniciTuruBean.create}" rendered="#{kullaniciTuruBean.entity.kullaniciId == 0}" value="Yeni Kayıt">
+                    <f:ajax execute="kullaniciTuru-form" render="kullaniciTuru-form table-form" />
+                </h:commandButton>
+                <h:commandButton action="#{kullaniciTuruBean.update}" rendered="#{kullaniciTuruBean.entity.kullaniciId != 0}" value="Kaydet">
+                    <f:ajax execute="kullaniciTuru-form" render="kullaniciTuru-form table-form" />
+                </h:commandButton>
+                <h:commandButton action="#{kullaniciTuruBean.clear}" rendered="#{kullaniciTuruBean.entity.kullaniciId != 0}" value="Vazgeç">
+                    <f:ajax execute="kullaniciTuru-form" render="kullaniciTuru-form" />
+                </h:commandButton>
                 <br/><br/>
-
-                <div style="width: auto; height: 350px; overflow-y: auto;">
-                    <h:dataTable styleClass="table" value="#{kullaniciTuruBean.list}" var="list">
-                        <h:column>
-                            <f:facet name="header">ID</f:facet>
-                                #{list.kullaniciId}
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">Pozisyon</f:facet>
-                                #{list.kullanici}
-                        </h:column>
-                        <h:column>
-                            <h:commandButton action="#{kullaniciTuruBean.delete(list)}" value="Sil"/>
-                        </h:column>
-                        <h:column>
-                            <h:commandButton action="#{kullaniciTuruBean.setEntity(list)}" value="Güncelle"/>
-                        </h:column>
-
-                    </h:dataTable>
-                </div>
             </div>
+        </h:form>
+
+        <h:form id="table-form">
+
+            <div style="width: auto; height: 350px; overflow-y: auto;">
+                <h:dataTable styleClass="table" value="#{kullaniciTuruBean.list}" var="list">
+                    <h:column>
+                        <f:facet name="header">ID</f:facet>
+                            #{list.kullaniciId}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Pozisyon</f:facet>
+                            #{list.kullanici}
+                    </h:column>
+                    <h:column>
+                        <h:commandButton action="#{kullaniciTuruBean.delete(list)}" value="Sil">
+                            <f:ajax execute="table-form" render="table-form" />
+                        </h:commandButton>
+                    </h:column>
+                    <h:column>
+                        <h:commandButton action="#{kullaniciTuruBean.setEntity(list)}" value="Güncelle">
+                            <f:ajax execute="table-form" render="kullaniciTuru-form" />
+                        </h:commandButton>
+                    </h:column>
+
+                </h:dataTable>
+            </div>
+
         </h:form>
 
     </h:body>
