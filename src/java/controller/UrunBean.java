@@ -28,7 +28,7 @@ public class UrunBean implements Serializable {
     private int pageCount;
     
     public void next(){
-        if(this.page == this.pageCount)
+        if(this.getPage() == this.getPageCount())
             this.page = 1;
         else
             this.page++;
@@ -58,7 +58,7 @@ public class UrunBean implements Serializable {
 
     public int getPageCount() {
         
-        this.pageCount = (int) Math.ceil(this.dao.count()/(double)pageSize);
+        this.pageCount = (int) Math.ceil(this.getDao().count()/(double)pageSize);
         
         return pageCount;
     }

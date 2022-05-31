@@ -101,7 +101,7 @@ public class UrunDAO extends DataBase {
         return list;
     }
     
-    public int count(int page, int pageSize) {
+    public int count() {
 
         int count = 0;     
 
@@ -189,10 +189,6 @@ public class UrunDAO extends DataBase {
 
     public void setKategoriDao(KategoriDAO kategoriDao) {
         this.kategoriDao = kategoriDao;
-    }
-
-    public double count() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }
