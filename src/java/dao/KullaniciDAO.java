@@ -41,6 +41,28 @@ public class KullaniciDAO extends DataBase {
         }
         return k;
     }
+    
+    public boolean verifyLogin(Kullanici k){
+        try {
+            Statement st = getConnection().createStatement();
+            String query = "SELECT * FROM kullanici WHERE isim='"+k.getIsim()+"' AND password='"+k.getPassword()+"'";
+            ResultSet rs = st.executeQuery(query);
+            while(rs.next()){
+                KullaniciTuru kt = getKullaniciTuruDAO().findById(rs.getShort("kullanici_id"));
+                k.setId(rs.getShort("id")); 
+                k.setKullaniciTuru(kt);
+                k.setSoyisim(rs.getString("soyisim"));
+                k.setAdres(rs.getString("adres"));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        
+        if(k.getId() != 0){
+            return true;
+        }
+        return false;
+    }
 
     public List<Kullanici> getKullaniciList() {
         List<Kullanici> list = new ArrayList<>();

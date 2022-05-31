@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+    <h:head>
+        <title>Giris</title>
+    </h:head>
+
+    <h:body>
+
+        <div>
+            <h:form>
+                <h:commandButton action="/login?faces-redirect=true" value="Geri" />
+            </h:form> <br />
+            <hr />
+            
+            <h:form rendered="#{currentUser == null}">
+                <h:inputText id="user" a:placeHolder="Kullanici Adi" value="#{kullaniciBean.entity.isim}" required="true" requiredMessage="Kullanici adi alanı boş olamaz">
+                    <f:validateLength minimum="3"/>
+                </h:inputText><br />
+                <h:message for="user" style="color:red"/><br />
+                <h:inputText id="pass" a:placeHolder="Password" value="#{kullaniciBean.entity.password}" required="true" requiredMessage="Şifre alanı boş olamaz">
+                    <f:validateLength minimum="5" />
+                </h:inputText><br />
+                <h:message for="pass" style="color:red" /><br />
+                <h:commandButton action="#{kullaniciBean.login}" value="Giriş" /><br />
+            </h:form>
+            
+            <h:form rendered="#{currentUser != null}">
+                Kullanici adi : #{kullaniciBean.entity.isim} <br />
+                Password : #{kullaniciBean.entity.password} <br />
+                Zaten giriş yaptınız. <h:commandButton action="/index?faces-redirect=true" value="Panele Git"/>
+            </h:form><br />
+            
+            
+            <h:messages></h:messages>
+        </div>
+
+    </h:body>
+</html>
+

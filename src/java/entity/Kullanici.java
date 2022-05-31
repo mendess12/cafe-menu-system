@@ -20,6 +20,8 @@ public class Kullanici {
     public Kullanici() {
 
     }
+    
+   
 
     public Kullanici(short id, KullaniciTuru kullaniciTuru, String password, String isim, String soyisim, String adres) {
         this.id = id;
