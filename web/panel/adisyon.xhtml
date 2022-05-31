@@ -16,7 +16,7 @@
         </h:form>
 
         <hr />
-        <h:form>
+        <h:form id="adisyon-form">
             Masa:
             <h:selectOneMenu value="#{adisyonBean.entity.masa}" converter="masaConverter">
                 <f:selectItems value="#{masaBean.list}" var="m" itemValue="#{m}" itemLabel="#{m.masaNo}">
@@ -24,13 +24,17 @@
             </h:selectOneMenu>
 
             Tutar: <h:inputText value="#{adisyonBean.entity.tutar}" />
-            <h:commandButton action="#{adisyonBean.create()}" value="Yeni Kayıt"/>
-            <h:commandButton action="#{adisyonBean.update()}" value="update"/>
+            <h:commandButton action="#{adisyonBean.create()}" value="Yeni Kayıt">
+                <f:ajax execute="adisyon-form" render="adisyon-form adisyon-table"/>
+            </h:commandButton>
+            <h:commandButton action="#{adisyonBean.update()}" value="update">
+                <f:ajax execute="adisyon-form" render="adisyon-form adisyon-table"/>
+            </h:commandButton>
         </h:form>
         <hr/>
 
         <div align="center">
-            <h:form>
+            <h:form id="adisyon-table">
                 <h:dataTable styleClass="table"  value="#{adisyonBean.list}" var="list">
 
                     <h:column>
@@ -47,10 +51,14 @@
                     </h:column>
 
                     <h:column>
-                        <h:commandButton action="#{adisyonBean.delete(list)}" value="Sil"/>
+                        <h:commandButton action="#{adisyonBean.delete(list)}" value="Sil">
+                            <f:ajax execute="adisyon-table" render="adisyon-table"/>
+                        </h:commandButton>
                     </h:column>
                     <h:column>
-                        <h:commandButton action="#{adisyonBean.setEntity(list)}" value="Güncelle"/>
+                        <h:commandButton action="#{adisyonBean.setEntity(list)}" value="Güncelle">
+                            <f:ajax execute="adisyon-form" render="adisyon-form"/>
+                        </h:commandButton>
                     </h:column>
 
                 </h:dataTable>

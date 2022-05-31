@@ -17,7 +17,7 @@
         <br> </br>
         
         <div>
-            <h:form>
+            <h:form id="urun-table">
   
                 <div class="btn-group">
                     <h:commandButton action="#{urunBean.previous()}" value="Previous" styleClass="btn btn-outline-dark"/>
@@ -46,10 +46,14 @@
                             #{list.aciklama}
                     </h:column>
                     <h:column>
-                        <h:commandButton action="#{urunBean.delete(list)}" value="Sil"/>
+                        <h:commandButton action="#{urunBean.delete(list)}" value="Sil">
+                            <f:ajax execute="urun-table" render="urun-table"/>
+                        </h:commandButton>
                     </h:column>
                     <h:column>
-                        <h:commandButton action="#{urunBean.setEntity(list)}" value="Güncelle"/>
+                        <h:commandButton action="#{urunBean.setEntity(list)}" value="Güncelle">
+                            <f:ajax execute="urun-form" render="urun-form"/>
+                        </h:commandButton>
                     </h:column>
                 </h:dataTable>
             </h:form>
@@ -59,7 +63,7 @@
      
         <hr />
 
-        <h:form>
+        <h:form id="urun-form">
             Kategori:
             <h:selectOneMenu value="#{urunBean.entity.kategori}" converter="kategoriConverter">
                 <f:selectItems value="#{kategoriBean.list}" var="k" itemValue="#{k}" itemLabel="#{k.tur}">
@@ -69,8 +73,12 @@
             Fiyat: <h:inputText value="#{urunBean.entity.fiyat}" />
             Açıklama: <h:inputTextarea value="#{urunBean.entity.aciklama}"/>
 
-            <h:commandButton action="#{urunBean.create()}" value="Yeni Kayıt"/>
-            <h:commandButton action="#{urunBean.update()}" value="update"/>
+            <h:commandButton action="#{urunBean.create()}" value="Yeni Kayıt">
+                <f:ajax execute="urun-form" render="urun-form urun-table"/>
+            </h:commandButton>
+            <h:commandButton action="#{urunBean.update()}" value="update">
+                <f:ajax execute="urun-form" render="urun-form urun-table"/>
+            </h:commandButton>
         </h:form>
 
         <hr/>

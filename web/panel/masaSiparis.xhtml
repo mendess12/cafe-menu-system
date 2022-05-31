@@ -17,7 +17,7 @@
 
         <hr />
 
-        <h:form>
+        <h:form id="masaSiparis-form">
             Adisyon:
             <h:selectOneMenu value="#{masaSiparisBean.entity.adisyon}" converter="adisyonConverter">
                 <f:selectItems value="#{adisyonBean.list}" var="a" itemValue="#{a}" itemLabel="#{a.adisyonId}">
@@ -30,11 +30,15 @@
             </h:selectOneMenu>
             Tutar: <h:inputText value="#{masaSiparisBean.entity.tutar}" />
             Siparis Durumu: <h:inputText value="#{masaSiparisBean.entity.siparisDurumu}" />
-            <h:commandButton action="#{masaSiparisBean.create()}" value="Yeni Kayıt"/>
-            <h:commandButton action="#{masaSiparisBean.update()}" value="update"/>
+            <h:commandButton action="#{masaSiparisBean.create()}" value="Yeni Kayıt">
+                <f:ajax execute="masaSiparis-form" render="masaSiparis-form masaSiparis-table"/>
+            </h:commandButton>
+            <h:commandButton action="#{masaSiparisBean.update()}" value="update">
+                <f:ajax execute="masaSiparis-form" render="masaSiparis-form masaSiparis-table"/>
+            </h:commandButton>
         </h:form>
         <hr/>
-        <h:form>
+        <h:form id="masaSiparis-table">
             <h:dataTable class="table" border="2" value="#{masaSiparisBean.list}" var="list">
 
                 <h:column>
@@ -59,10 +63,14 @@
                 </h:column>
 
                 <h:column>
-                    <h:commandButton action="#{masaSiparisBean.delete(list)}" value="Sil"/>
+                    <h:commandButton action="#{masaSiparisBean.delete(list)}" value="Sil">
+                        <f:ajax execute="masaSiparis-table" render="masaSiparis-table"/>
+                    </h:commandButton>
                 </h:column>
                 <h:column>
-                    <h:commandButton action="#{masaSiparisBean.setEntity(list)}" value="Güncelle"/>
+                    <h:commandButton action="#{masaSiparisBean.setEntity(list)}" value="Güncelle">
+                          <f:ajax execute="masaSiparis-form" render="masaSiparis-form"/>
+                    </h:commandButton>
                 </h:column>
 
             </h:dataTable>
