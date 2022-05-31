@@ -27,21 +27,6 @@ public class KullaniciBean implements Serializable {
         
     }
     
-    public String login(){
-        
-        String rValue;
-        if(getDao().verifyLogin(entity)){
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("currentUser", getEntity());
-            rValue = "/index?faces-redirect=true";
-        } else{
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Kullanıcı adı ve Şifre yanlış"));
-            rValue = "/giris?faces-redirect=true";
-        }
-        
-        return rValue;
-        
-    }
-    
     public boolean validateName(FacesContext context,UIComponent cmp,Object value) throws ValidatorException{
         String val = (String) value;
         

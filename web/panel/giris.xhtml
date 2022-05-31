@@ -17,21 +17,21 @@
             <hr />
             
             <h:form rendered="#{currentUser == null}">
-                <h:inputText id="user" a:placeHolder="Kullanici Adi" value="#{kullaniciBean.entity.isim}" required="true" requiredMessage="Kullanici adi alanı boş olamaz">
+                <h:inputText id="user" a:placeHolder="Kullanici Adi" value="#{loginKullaniciBean.entity.isim}" required="true" requiredMessage="Kullanici adi alanı boş olamaz">
                     <f:validateLength minimum="3"/>
                 </h:inputText><br />
                 <h:message for="user" style="color:red"/><br />
-                <h:inputText id="pass" a:placeHolder="Password" value="#{kullaniciBean.entity.password}" required="true" requiredMessage="Şifre alanı boş olamaz">
+                <h:inputText id="pass" a:placeHolder="Password" value="#{loginKullaniciBean.entity.password}" required="true" requiredMessage="Şifre alanı boş olamaz">
                     <f:validateLength minimum="5" />
                 </h:inputText><br />
                 <h:message for="pass" style="color:red" /><br />
-                <h:commandButton action="#{kullaniciBean.login}" value="Giriş" /><br />
+                <h:commandButton action="#{loginKullaniciBean.login}" value="Giriş" /><br />
             </h:form>
             
             <h:form rendered="#{currentUser != null}">
-                Kullanici adi : #{kullaniciBean.entity.isim} <br />
-                Password : #{kullaniciBean.entity.password} <br />
-                Zaten giriş yaptınız. <h:commandButton action="/index?faces-redirect=true" value="Panele Git"/>
+                Kullanici adi : #{loginKullaniciBean.entity.isim} <br />
+                Password : #{loginKullaniciBean.entity.password} <br />
+                Zaten giriş yaptınız. <h:commandButton action="/index?faces-redirect=true" value="PaneleGit"/>
             </h:form><br />
             
             
