@@ -23,7 +23,7 @@ import java.util.ArrayList;
 @Named(value = "urunBean")
 @SessionScoped
 public class UrunBean implements Serializable {
-    final String absolutePath = "C:\\Users\\seyfettin\\Desktop\\";
+    final String absolutePath = "C:/Users/seyfettin/Desktop/internet_programciligi/cafe-menu-system/web/resources/images/";
 
     private UrunDAO dao;
     private List<Urun> list;
@@ -106,18 +106,23 @@ public class UrunBean implements Serializable {
 
     public void create() {
         if(file != null && file.getSize() > 0){
+            System.out.println("---109Dao");
             try{
+                
+            System.out.println("---112Dao");
                 InputStream input = getFile().getInputStream();
                 String temp = absolutePath+file.getSubmittedFileName();
                 File f = new File(temp);
                 Files.copy(input, f.toPath());
                 this.entity.setImgUrl(file.getSubmittedFileName());
+                
+            System.out.println("---119Dao");
             } catch(Exception e){
-                this.entity.setImgUrl("baklava.jpeg"); 
+                this.entity.setImgUrl("meyve_suyu.jpg"); 
                 System.out.println(e.getMessage());
             }
         } else{
-          this.entity.setImgUrl("baklava.jpeg");  
+          this.entity.setImgUrl("meyve_suyu.jpg");  
         }
         
         this.getDao().createUrun(getEntity());

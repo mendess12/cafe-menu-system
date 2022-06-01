@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
     <h:head>
         <title>Urun</title>
         <h:outputStylesheet library="css" name="bootstrap.css"/>
@@ -16,82 +17,84 @@
 
         <br> </br>
 
-        <div>
-            <h:form id="urun-table">
 
-                <div class="btn-group">
-                    <h:commandButton action="#{urunBean.previous()}" value="Previous" styleClass="btn btn-outline-dark"/>
-                    <h:commandButton action="#{urunBean.next()}" value="Next" styleClass="btn btn-outline-dark"/>
-                </div>
-                <br> </br>
-                <h:dataTable class="table" value="#{urunBean.getUrunler()}" var="list">
-                    <h:column>
-                        <f:facet name="header">#</f:facet>
-                            #{list.urunId}
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Kategori Id</f:facet>
-                            #{list.kategori.kategoriId}
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">İsim</f:facet>
-                            #{list.isim}
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Fiyat</f:facet>
-                            #{list.fiyat}
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Açıklama</f:facet>
-                            #{list.aciklama}
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Url</f:facet>
-                            #{list.imgUrl}
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Görüntü</f:facet>
-                        <h:graphicImage library="images" name="#{list.imgUrl}" class="img-fluid" width="90" height="90" ></h:graphicImage>
-                    </h:column>
-                    <h:column>
-                        <h:commandButton action="#{urunBean.delete(list)}" value="Sil">
-                            <f:ajax execute="urun-table" render="urun-table"/>
-                        </h:commandButton>
-                    </h:column>
-                    <h:column>
-                        <h:commandButton action="#{urunBean.setEntity(list)}" value="Güncelle">
-                            <f:ajax execute="urun-form" render="urun-form"/>
-                        </h:commandButton>
-                    </h:column>
-                </h:dataTable>
-            </h:form>
-        </div>
+        <h:form id="urun-form" enctype="multipart/form-data" style="margin: 14px 14px 14px 14px">
 
-        <br> </br>
+            <div align="center" style="margin-left: 80px; margin-right: 80px">
+                Kategori:
+                <h:selectOneMenu value="#{urunBean.entity.kategori}" converter="kategoriConverter"> 
+                    <f:selectItems value="#{kategoriBean.list}" var="k" itemValue="#{k}" itemLabel="#{k.tur}">
+                    </f:selectItems> 
+                </h:selectOneMenu> <br></br> <br></br>
+                <h:inputText id="isim" a:placeholder="İsim" value="#{urunBean.entity.isim}" required="true" requiredMessage="isim giriniz!"/> <br></br>
+                <h:message for="isim" style="color :red; font-size:10pt;" /> <br></br>
+                Fiyat:<h:inputText id="fiyat" value="#{urunBean.entity.fiyat}" required="true" requiredMessage="Fiyat giriniz!"/> <br></br>
+                <h:message for="fiyat" style="color :red; font-size:10pt;"/> <br></br>
 
-        <hr />
+                <h:inputTextarea id="acikama" a:placeholder="Açıklama" value="#{urunBean.entity.aciklama}" required="true" requiredMessage="aciklama giriniz!"/> <br></br>
+                <h:message for="acikama" style="color :red; font-size:10pt;"/> <br></br>
 
-        <h:form id="urun-form" enctype="multipart/form-data" >
-            Kategori:
-            <h:selectOneMenu value="#{urunBean.entity.kategori}" converter="kategoriConverter">
-                <f:selectItems value="#{kategoriBean.list}" var="k" itemValue="#{k}" itemLabel="#{k.tur}">
-                </f:selectItems>
-            </h:selectOneMenu>
-            İsim: <h:inputText value="#{urunBean.entity.isim}" />
-            Fiyat: <h:inputText value="#{urunBean.entity.fiyat}" />
-            Açıklama: <h:inputTextarea value="#{urunBean.entity.aciklama}"/>
-            Fotoğraf: <h:inputFile value="#{urunBean.file}"></h:inputFile>
-            
+                <h:inputFile id="dosya" a:placeholder="Fotoğraf" value="#{urunBean.file}" required="true" requiredMessage="dosya seciniz!"/> <br></br>
+                <h:message for="dosya" style="color :red; font-size:10pt;"/> <br></br>
 
-            <h:commandButton action="#{urunBean.create()}" value="Yeni Kayıt">
-            </h:commandButton>
-
-            <h:commandButton action="#{urunBean.update()}" value="update">
-                <f:ajax execute="urun-form" render="urun-form urun-table"/>
-            </h:commandButton>
+                <h:commandButton action="#{urunBean.create()}" value="Yeni Kayıt" /> 
+                <br></br><br></br>
+                <h:commandButton action="#{urunBean.update()}" value="update"> 
+                    <f:ajax execute="urun-form" render="urun-form urun-table"/>
+                </h:commandButton>
+            </div>
         </h:form>
 
-        <hr/>
+        <br> </br>
+        <hr />
+
+        <h:form id="urun-table">
+            <div class="btn-group">
+                <h:commandButton action="#{urunBean.previous()}" value="Previous" styleClass="btn btn-outline-dark"/>
+                <h:commandButton action="#{urunBean.next()}" value="Next" styleClass="btn btn-outline-dark"/>
+            </div>
+            <br> </br>
+            <h:dataTable class="table" value="#{urunBean.getUrunler()}" var="list">
+                <h:column>
+                    <f:facet name="header">#</f:facet>
+                        #{list.urunId}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Kategori Id</f:facet>
+                        #{list.kategori.kategoriId}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">İsim</f:facet>
+                        #{list.isim}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Fiyat</f:facet>
+                        #{list.fiyat}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Açıklama</f:facet>
+                        #{list.aciklama}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Url</f:facet>
+                        #{list.imgUrl}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Görüntü</f:facet>
+                    <h:graphicImage library="images" name="#{list.imgUrl}" class="img-fluid" width="90" height="90" ></h:graphicImage>
+                </h:column>
+                <h:column>
+                    <h:commandButton action="#{urunBean.delete(list)}" value="Sil">
+                        <f:ajax execute="urun-table" render="urun-table"/>
+                    </h:commandButton>
+                </h:column>
+                <h:column>
+                    <h:commandButton action="#{urunBean.setEntity(list)}" value="Güncelle">
+                        <f:ajax execute="urun-form" render="urun-form"/>
+                    </h:commandButton>
+                </h:column>
+            </h:dataTable>
+        </h:form>
 
     </h:body>
 </html>
