@@ -4,9 +4,8 @@
  */
 package dao;
 
-
-import entity.Kategori;
 import entity.Kullanici;
+import entity.KullaniciTuru;
 import entity.PaketSiparis;
 import entity.Urun;
 import util.DataBase;
@@ -22,79 +21,75 @@ import java.util.List;
  *
  * @author 1907h
  */
-public class PaketSiparisDAO extends DataBase{
-    
+public class PaketSiparisDAO extends DataBase {
+
     private Connection connection;
     private KullaniciDAO kullaniciDAO;
     private UrunDAO urunDAO;
     private KategoriDAO kategoriDAO;
-    
-    public PaketSiparisDAO(){
-        
+
+    public PaketSiparisDAO() {
+
     }
-    
-    public List<PaketSiparis> getPaketSiparis(){
+
+    public List<PaketSiparis> getPaketSiparis() {
         List<PaketSiparis> list = new ArrayList<>();
         try {
-            Statement st = getConnection().createStatement();
-            
-            String query_1 = "SELECT kullanici_id as k,  FROM paket_siparis GROUP BY kullanici_id";
-            String query_2;
-            
-            ResultSet rs_1 = st.executeQuery(query_1);
-            ResultSet rs_2;
-            
-            Urun u;
             Kullanici kullanici;
-            Kategori k;
-            PaketSiparis ps;
-            
-            int tutar = 0;
-            int id;
-            
-            while(rs_1.next()){
-                ps = new PaketSiparis();
-                id = rs_1.getInt("k");
-                query_2 = "SELECT * FROM urun WHERE kullanici_id=" + id;
-                rs_2 = st.executeQuery(query_2);
-                while(rs_2.next()){
-                    k = kategoriDAO.findByID(rs_2.getInt("kategori_id"));
-                    u = new Urun(rs_2.getShort("urun_id"), k, rs_2.getString("isim"), rs_2.getInt("fiyat"), rs_2.getString("aciklama"));
-                    ps.getSelectedList().add(u);
-                    tutar += rs_2.getInt("fiyat");
-                }
+            KullaniciTuru kullaniciTuru;
+
+            Statement st = getConnection().createStatement();
+            Statement st2 = getConnection().createStatement();
+            String fk1Query = "SELECT kullanici_id as k FROM paket_siparis GROUP BY kullanici_id";
+
+            ResultSet fk1Rs = st.executeQuery(fk1Query);
+            ResultSet mainRs;
+
+            while (fk1Rs.next()) {
                 
-                ps.setKullanici(kullaniciDAO.findById(id));
-                ps.setTutar(tutar);
-                list.add(ps);
+                kullanici = getKullaniciDAO().findById(fk1Rs.getShort("k"));
+                    
+                System.out.println("--" + kullanici.getIsim() + "--" + fk1Rs.getShort("k"));
+                fk1Query = "SELECT * FROM paket_siparis WHERE kullanici_id=" + kullanici.getId();
+                mainRs = st2.executeQuery(fk1Query);
+                
+                List<Urun> urunler = new ArrayList<>();
+                int tutar = 0;
+
+                while (mainRs.next()) {
+                    urunler.add(getUrunDAO().findByID(mainRs.getShort("urun_id")));
+                    tutar += urunler.get(urunler.size() - 1).getFiyat();
+                }
+
+                list.add(new PaketSiparis(kullanici, tutar, urunler));
             }
-            
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        
+        System.out.println("list.size():" + list.size());
         return list;
     }
-    
-    public void createPaketSiparis(PaketSiparis paketSiparis){
+
+    public void createPaketSiparis(Kullanici kullanici, List<Urun> selectedList) {
+        
         try {
             String query = "INSERT INTO paket_siparis(kullanici_id, urun_id, tutar) VALUES (?, ?, ?)";
-            PreparedStatement pst = getConnection().prepareStatement(query);
             
-            pst.setShort(1, paketSiparis.getKullanici().getId());
-            //pst.setInt(2, paketSiparis.getUrun().getUrunId());
-            pst.setInt(3, paketSiparis.getTutar());
-            
-            pst.executeUpdate();
-            
+            for(Urun u : selectedList){
+                PreparedStatement pst = getConnection().prepareStatement(query);
+                pst.setShort(1, kullanici.getId());
+                pst.setInt(2, u.getUrunId());
+                pst.setInt(3, u.getFiyat());
+                pst.executeUpdate();
+            }
+
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        
+
     }
-    
-    
-    public void updatePaketSiparis(PaketSiparis paketSiparis){
+
+    public void updatePaketSiparis(PaketSiparis paketSiparis) {
 
         String query = "UPDATE paket_siparis SET kullanici_id=?, urun_id=?, tutar=? WHERE siparis_no=?";
         try {
@@ -104,18 +99,18 @@ public class PaketSiparisDAO extends DataBase{
             pst.setInt(2, paketSiparis.getUrunId());
             pst.setInt(3, paketSiparis.getTutar());
             pst.setShort(4, paketSiparis.getSiparisNo());
-            */
+             */
             pst.executeUpdate();
-            
+
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
     }
-    
-    public void deletePaketSiparis(PaketSiparis paketSiparis){
+
+    public void deletePaketSiparis(Kullanici kullanici) {
         try {
             Statement st = getConnection().createStatement();
-           // st.executeUpdate("DELETE FROM paket_siparis WHERE id=" + paketSiparis.getSiparisNo());
+            st.executeUpdate("DELETE FROM paket_siparis WHERE kullanici_id=" + kullanici.getId());
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
@@ -123,7 +118,7 @@ public class PaketSiparisDAO extends DataBase{
     }
 
     public Connection getConnection() {
-        if(this.connection == null){
+        if (this.connection == null) {
             this.connection = getConnect();
         }
         return connection;
@@ -134,18 +129,20 @@ public class PaketSiparisDAO extends DataBase{
     }
 
     public KullaniciDAO getKullaniciDAO() {
-        if(this.kullaniciDAO == null)
+        if (this.kullaniciDAO == null) {
             this.kullaniciDAO = new KullaniciDAO();
+        }
         return kullaniciDAO;
     }
 
     public void setKullaniciDAO(KullaniciDAO kullaniciDAO) {
         this.kullaniciDAO = kullaniciDAO;
     }
-
+    
     public UrunDAO getUrunDAO() {
-        if(this.urunDAO == null)
+        if (this.urunDAO == null) {
             this.urunDAO = new UrunDAO();
+        }
         return urunDAO;
     }
 
@@ -154,7 +151,7 @@ public class PaketSiparisDAO extends DataBase{
     }
 
     public KategoriDAO getKategoriDAO() {
-        if(this.kategoriDAO == null){
+        if (this.kategoriDAO == null) {
             this.kategoriDAO = new KategoriDAO();
         }
         return kategoriDAO;
@@ -163,7 +160,5 @@ public class PaketSiparisDAO extends DataBase{
     public void setKategoriDAO(KategoriDAO kategoriDAO) {
         this.kategoriDAO = kategoriDAO;
     }
-    
-    
-    
+
 }

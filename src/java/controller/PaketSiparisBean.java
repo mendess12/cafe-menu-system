@@ -22,45 +22,59 @@ import java.util.List;
 @SessionScoped
 public class PaketSiparisBean implements Serializable {
 
-    private PaketSiparis entity;
     private PaketSiparisDAO dao;
+    private boolean updateState = false;
     private List<PaketSiparis> list;
-    
-    
+    private List<Urun> viewData;
     
     public PaketSiparisBean() {
         
     }
     
-    public void create(){
-        getDao().createPaketSiparis(getEntity());
-        setEntity(null);
+    public void create(Kullanici kullanici, List<Urun> selectedList){
+        getDao().createPaketSiparis(kullanici, selectedList);
     }
     
-    public void delete(PaketSiparis paketSiparis){
-        getDao().deletePaketSiparis(paketSiparis);
+    public void delete(Kullanici kullanici){
+        getDao().deletePaketSiparis(kullanici);
     }
     
-    public void update(){
-        getDao().updatePaketSiparis(getEntity());
-        setEntity(null);
+    public void update(Kullanici kullanici, List<Urun> selectedList){
+        setUpdateState(false);
+        delete(kullanici);
+        getDao().createPaketSiparis(kullanici, selectedList);
     }
     
-    public void clear(){
-        setEntity(null);
+    public void updateCase(PaketSiparis ps, KullaniciBean kb, UrunBean ub){
+        setUpdateState(true);
+        kb.setEntity(ps.getKullanici());
+        ub.setList(ps.getSelectedList());
+//        getDao().updatePaketSiparis();
+    }
+    
+    
+    public void clearForm(){
+        setUpdateState(false);
+    }
+    
+    
+    public void view(List<Urun> viewData){
+        setViewData(viewData);
     }
 
-    public PaketSiparis getEntity() {
-        if(this.entity == null){
-            this.entity = new PaketSiparis();
+    public List<Urun> getViewData() {
+        if(viewData == null){
+            viewData = new ArrayList();
         }
-        return entity;
+        return viewData;
     }
 
-    public void setEntity(PaketSiparis entity) {
-        this.entity = entity;
+    public void setViewData(List<Urun> viewData) {
+        this.viewData = viewData;
     }
-
+    
+            
+            
     public PaketSiparisDAO getDao() {
         if(this.dao == null){
             this.dao = new PaketSiparisDAO();
@@ -81,5 +95,15 @@ public class PaketSiparisBean implements Serializable {
         this.list = list;
     }
 
+    public boolean isUpdateState() {
+        return updateState;
+    }
+
+    public void setUpdateState(boolean updateState) {
+        this.updateState = updateState;
+    }
+
+    
+    
     
 }

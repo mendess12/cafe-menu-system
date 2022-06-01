@@ -39,7 +39,7 @@ public class UrunDAO extends DataBase {
 
             while (rs.next()) {
                 Kategori kategori = this.getKategoriDao().findByID(rs.getInt("kategori_id"));
-                urun = new Urun(rs.getInt("urun_id"), kategori, rs.getString("isim"), rs.getInt("fiyat"), rs.getString("aciklama"), rs.getString("imgUrl"));
+                urun = new Urun(rs.getInt("urun_id"), kategori, rs.getString("isim"), rs.getInt("fiyat"), rs.getString("aciklama"), rs.getString("imgurls"));
             }
 
         } catch (Exception ex) {

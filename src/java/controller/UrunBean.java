@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  *
@@ -22,16 +23,17 @@ import java.util.List;
 @Named(value = "urunBean")
 @SessionScoped
 public class UrunBean implements Serializable {
-    final String absolutePath = "C:\\Users\\hp\\Desktop\\";
+    final String absolutePath = "C:\\Users\\1907h\\Desktop\\";
 
     private UrunDAO dao;
     private List<Urun> list;
     private Urun entity; 
     private Part file;
-     
     private int page = 1;
     private int pageSize = 6;
     private int pageCount;
+    
+    private List<Urun> selectedList;
     
     public void next(){
         if(this.getPage() == this.getPageCount())
@@ -61,6 +63,17 @@ public class UrunBean implements Serializable {
 
     public void setPage(int page) {
         this.page = page;
+    }
+
+    public List<Urun> getSelectedList() {
+        if(selectedList == null){
+            selectedList = new ArrayList<>();
+        }
+        return selectedList;
+    }
+
+    public void setSelectedList(List<Urun> selectedList) {
+        this.selectedList = selectedList;
     }
 
     public int getPageSize() {

@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
         <title>Facelet Title</title>
         <h:outputStylesheet library="css" name="bootstrap.css"/>
@@ -11,57 +12,101 @@
     </h:head>
     <h:body>
 
-        <h:form style="margin: 14px 14px 14px 14px">
+        <h:form style="margin:14px">
+            <h:commandButton value="Geri" action="/index" />
+        </h:form>
+        <div class="container">
+            <div class="row">
+                <div class="col-4">
+                    <h:form id="data-form" style="margin:28px">
+                        <h:outputText value="Kullanici" /><br/>
+                        <h:selectOneMenu style="width:150px;" value="#{kullaniciBean.entity}" converter="kullaniciConverter">
+                            <f:selectItems value="#{kullaniciBean.list}" var="k" itemValue="#{k}" itemLabel="#{k.isim}"></f:selectItems>
+                        </h:selectOneMenu> <br /> <br />
 
-            <h:commandButton action="/index" value="Geri"/>
-            <hr/>
-            
-            <div align="center" style="margin-left: 80px; margin-right: 80px">
-                <h:outputText value="PAKET SİPARİŞ" style="font-weight: bold"></h:outputText><br/><br/>
-                
-                <h:selectOneMenu value="#{paketSiparisBean.entity}" converter="kullaniciConverter">
-                    <f:selectItems value="#{paketSiparisBean.list}" var="l" itemValue="#{l}" itemLabel="#{l.isim}"/>
-                </h:selectOneMenu>
-                
-                <br/><br/>
-                <h:commandButton action="#{kullaniciBean.create}" rendered="#{kullaniciBean.entity.id == 0}" value="Yeni Kayıt"/>
-                <h:commandButton action="#{kullaniciBean.update}" rendered="#{kullaniciBean.entity.id != 0}" value="Kaydet"/>
-                <h:commandButton action="#{kullaniciBean.clear}" rendered="#{kullaniciBean.entity.id != 0}" value="Vazgeç"/>
+                        <h:outputText value="Ürünler" style="margin-right:20px"/><br/>
+                        <h:selectManyMenu style="height: 120px; width:150px" value="#{urunBean.selectedList}" converter="urunConverter">
+                            <f:selectItems value="#{urunBean.list}" var="u" itemValue="#{u}" itemLabel="#{u.isim}"></f:selectItems>
+                        </h:selectManyMenu> <br /><br /><br/>
+                        <h:commandButton rendered="#{paketSiparisBean.updateState == false}" style="width:150px" value="Ekle" action="#{paketSiparisBean.create(kullaniciBean.entity, urunBean.selectedList)}">
+                            <f:ajax execute="data-form" render="data-table data-form" />
+                        </h:commandButton>
 
+                        <h:commandButton rendered="#{paketSiparisBean.updateState == true}" style="width:150px" value="Kaydet" action="#{paketSiparisBean.update(kullaniciBean.entity, urunBean.selectedList)}">
+                            <f:ajax execute="data-form" render="data-table data-form" />
+                        </h:commandButton>
 
+                        <h:commandButton rendered="#{paketSiparisBean.updateState == true}" style="width:150px" value="Vazgeç" action="#{paketSiparisBean.clearForm()}">
+                            <f:ajax execute="data-form" render="data-table data-form" />
+                        </h:commandButton>
 
-                <br/><br/>
+                    </h:form>
+                </div>
+                <br /><br />
+                <div class="col-8">
 
-                <div style="width: auto; height: 250px; overflow-y: auto;">
-                    <h:dataTable styleClass="table" value="#{paketSiparisBean.list}" var="list">
-                        <h:column>
-                            <f:facet name="header">Kullanıcı</f:facet>
-                                #{list.kullanici.isim}
-                        </h:column>
-                        <h:column>
-                            <ui:repeat value="#{list.selectedList}" var="urun">
-                                <f:facet name="header">Ürün</f:facet>
-                                <li>#{urun.isim}</li>
-                            </ui:repeat>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">Tutar</f:facet>
-                                #{list.tutar}
-                        </h:column>
-                        
-                        <h:column>
-                            <h:commandButton action="#{kullaniciBean.delete(list)}" value="Sil"/>
-                        </h:column>
-                        <h:column>
-                            <h:commandButton action="#{kullaniciBean.setEntity(list)}" value="Güncelle"/>
-                        </h:column>
-                        
-                    </h:dataTable>
+                    <h:form id="data-table">
+                        <div  style="width: auto; height: 320px; overflow-y: auto;">
+                            <h:dataTable styleClass="table" value="#{paketSiparisBean.list}" var="list">
+                                <h:column>
+                                    <f:facet name="header">#</f:facet>
+                                        #{list.kullanici.id}
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Name</f:facet>
+                                        #{list.kullanici.isim}
+                                </h:column>
+
+                                <h:column>
+                                    <ol>
+                                        <li>#{list.selectedList.get(0).isim}</li>
+                                    </ol>
+                                    <h:commandLink class="link-secondary" style="margin:10px" action="#{paketSiparisBean.view(list.selectedList)}">View all</h:commandLink>
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header">Tutar</f:facet>
+                                    #{list.tutar} ₺
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header">Yönet</f:facet>
+                                    <h:commandButton style="margin:20px" styleClass="btn btn-warning" action="#{paketSiparisBean.updateCase(list, kullaniciBean, urunBean)}" value="Update" />
+                                    <h:commandButton style="margin:20px" styleClass="btn btn-danger" action="#{paketSiparisBean.delete(list.kullanici)}" value="Delete" />
+                                </h:column>
+                            </h:dataTable>
+                        </div>
+                    </h:form>
+
                 </div>
             </div>
-        </h:form>
+            <div class="row" style="width: auto; height: 200px; overflow-y: auto;">
+                
+                <h:dataTable styleClass="table" value="#{paketSiparisBean.viewData}" var="u">
 
-        
+                    <h:column>
+                        <f:facet name="header">#</f:facet>
+                            #{u.urunId}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">İsim</f:facet>
+                            #{u.isim}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Fiyat</f:facet>
+                            #{u.fiyat}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Açıklama</f:facet>
+                            #{u.aciklama}
+                    </h:column>
+
+                </h:dataTable>
+
+            </div>
+
+        </div>
+
     </h:body>
 </html>
 
