@@ -23,7 +23,7 @@ import java.util.ArrayList;
 @Named(value = "urunBean")
 @SessionScoped
 public class UrunBean implements Serializable {
-    final String absolutePath = "C:\\Users\\1907h\\Desktop\\";
+    final String absolutePath = "C:\\Users\\seyfettin\\Desktop\\";
 
     private UrunDAO dao;
     private List<Urun> list;

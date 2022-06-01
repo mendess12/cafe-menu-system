@@ -10,6 +10,9 @@
 
     <h:body>
 
+        <h:form>
+            <h:commandButton style="margin:14px 0px 0px 4px;" action="/login.xhmtl" value="Geri"/>
+        </h:form>
 
         <h:form style="margin: 14px 14px 14px 14px">
             <hr/>
@@ -32,9 +35,6 @@
                 <h:commandButton action="#{kayitBean.create}" rendered="#{kayitBean.entity.id == 0}" value="Yeni Kayıt"/>
             </div>
         </h:form>
-
-
-
     </h:body>
 
 </html>
