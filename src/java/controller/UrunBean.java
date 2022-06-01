@@ -8,7 +8,11 @@ import dao.UrunDAO;
 import entity.Urun;
 import jakarta.inject.Named;
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.servlet.http.Part;
+import java.io.File;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.nio.file.Files;
 import java.util.List;
 
 /**
@@ -18,13 +22,15 @@ import java.util.List;
 @Named(value = "urunBean")
 @SessionScoped
 public class UrunBean implements Serializable {
+    final String absolutePath = "C:\\Users\\hp\\Desktop\\";
 
     private UrunDAO dao;
     private List<Urun> list;
     private Urun entity; 
+    private Part file;
      
     private int page = 1;
-    private int pageSize = 3;
+    private int pageSize = 6;
     private int pageCount;
     
     public void next(){
@@ -39,6 +45,15 @@ public class UrunBean implements Serializable {
            this.page--;
         
     }    
+
+    public Part getFile() {
+        return file;
+    }
+
+    public void setFile(Part file) {
+        this.file = file;
+    }
+    
     
     public int getPage() {
         return page;
@@ -77,6 +92,21 @@ public class UrunBean implements Serializable {
     }
 
     public void create() {
+        if(file != null && file.getSize() > 0){
+            try{
+                InputStream input = getFile().getInputStream();
+                String temp = absolutePath+file.getSubmittedFileName();
+                File f = new File(temp);
+                Files.copy(input, f.toPath());
+                this.entity.setImgUrl(file.getSubmittedFileName());
+            } catch(Exception e){
+                this.entity.setImgUrl("baklava.jpeg"); 
+                System.out.println(e.getMessage());
+            }
+        } else{
+          this.entity.setImgUrl("baklava.jpeg");  
+        }
+        
         this.getDao().createUrun(getEntity());
         this.entity = new Urun();
     }

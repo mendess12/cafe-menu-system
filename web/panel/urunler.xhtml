@@ -13,12 +13,12 @@
         <h:form>
             <h:commandButton style="margin:14px 0px 0px 4px;" action="/index.xhmtl" value="BACK"/>
         </h:form>
-     
+
         <br> </br>
-        
+
         <div>
             <h:form id="urun-table">
-  
+
                 <div class="btn-group">
                     <h:commandButton action="#{urunBean.previous()}" value="Previous" styleClass="btn btn-outline-dark"/>
                     <h:commandButton action="#{urunBean.next()}" value="Next" styleClass="btn btn-outline-dark"/>
@@ -46,6 +46,14 @@
                             #{list.aciklama}
                     </h:column>
                     <h:column>
+                        <f:facet name="header">Url</f:facet>
+                            #{list.imgUrl}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Görüntü</f:facet>
+                        <h:graphicImage library="images" name="#{list.imgUrl}" class="img-fluid" width="90" height="90" ></h:graphicImage>
+                    </h:column>
+                    <h:column>
                         <h:commandButton action="#{urunBean.delete(list)}" value="Sil">
                             <f:ajax execute="urun-table" render="urun-table"/>
                         </h:commandButton>
@@ -58,12 +66,12 @@
                 </h:dataTable>
             </h:form>
         </div>
-       
+
         <br> </br>
-     
+
         <hr />
 
-        <h:form id="urun-form">
+        <h:form id="urun-form" enctype="multipart/form-data" >
             Kategori:
             <h:selectOneMenu value="#{urunBean.entity.kategori}" converter="kategoriConverter">
                 <f:selectItems value="#{kategoriBean.list}" var="k" itemValue="#{k}" itemLabel="#{k.tur}">
@@ -72,10 +80,12 @@
             İsim: <h:inputText value="#{urunBean.entity.isim}" />
             Fiyat: <h:inputText value="#{urunBean.entity.fiyat}" />
             Açıklama: <h:inputTextarea value="#{urunBean.entity.aciklama}"/>
+            Fotoğraf: <h:inputFile value="#{urunBean.file}"></h:inputFile>
+            
 
             <h:commandButton action="#{urunBean.create()}" value="Yeni Kayıt">
-                <f:ajax execute="urun-form" render="urun-form urun-table"/>
             </h:commandButton>
+
             <h:commandButton action="#{urunBean.update()}" value="update">
                 <f:ajax execute="urun-form" render="urun-form urun-table"/>
             </h:commandButton>

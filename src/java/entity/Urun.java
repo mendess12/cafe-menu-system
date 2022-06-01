@@ -14,19 +14,22 @@ public class Urun {
     private Kategori kategori;
     private String isim;
     private int fiyat;
-    private String aciklama;
+    private String aciklama,imgUrl;
 
     public Urun() {
 
     }
 
-    public Urun(int urunId, Kategori kategori, String isim, int fiyat, String aciklama) {
+    public Urun(int urunId, Kategori kategori, String isim, int fiyat, String aciklama,String imgUrl) {
         this.urunId = urunId;
         this.kategori = kategori;
         this.isim = isim;
         this.fiyat = fiyat;
         this.aciklama = aciklama;
+        this.imgUrl = imgUrl;
     }
+
+   
 
     public int getUrunId() {
         return urunId;
@@ -68,10 +71,22 @@ public class Urun {
         this.aciklama = aciklama;
     }
 
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
     @Override
     public String toString() {
-        return "Urun{" + "urunId=" + urunId + ", kategoriId=" + kategori + ", isim=" + isim + ", fiyat=" + fiyat + ", aciklama=" + aciklama + '}';
+        return "Urun{" + "urunId=" + urunId + ", kategori=" + kategori + ", isim=" + isim + ", fiyat=" + fiyat + ", aciklama=" + aciklama + ", imgUrl=" + imgUrl + '}';
     }
+    
+    
+
+    
 
     @Override
     public int hashCode() {
@@ -94,7 +109,8 @@ public class Urun {
         final Urun other = (Urun) obj;
         return this.urunId == other.urunId;
     }
-    
+
+   
     
 
 }

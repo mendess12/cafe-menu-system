@@ -14,6 +14,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
 
+import java.sql.Connection;
+
 /**
  *
  * @author Yusuf
@@ -26,21 +28,21 @@ public class UrunDAO extends DataBase {
     public UrunDAO() {
 
     }
-    
-    public Urun findByID(int urunId){
+
+    public Urun findByID(int urunId) {
         Urun urun = null;
 
-        try{
+        try {
             Statement st = this.getConnection().createStatement();
-            String query = "SELECT * FROM urun where urun_id="+urunId;
+            String query = "SELECT * FROM urun where urun_id=" + urunId;
             ResultSet rs = st.executeQuery(query);
 
-            while(rs.next()){
+            while (rs.next()) {
                 Kategori kategori = this.getKategoriDao().findByID(rs.getInt("kategori_id"));
-                urun = new Urun(rs.getInt("urun_id"),kategori,rs.getString("isim"),rs.getInt("fiyat"),rs.getString("aciklama"));
+                urun = new Urun(rs.getInt("urun_id"), kategori, rs.getString("isim"), rs.getInt("fiyat"), rs.getString("aciklama"), rs.getString("imgUrl"));
             }
 
-        }catch(Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
         return urun;
@@ -49,7 +51,7 @@ public class UrunDAO extends DataBase {
     public List<Urun> getUrunList() {
 
         List<Urun> list = new ArrayList();
-      
+
         try {
 
             Statement st = getConnection().createStatement();
@@ -60,11 +62,12 @@ public class UrunDAO extends DataBase {
                 Kategori kategori = this.getKategoriDao().findByID(rs.getInt("kategori_id"));
 
                 list.add(new Urun(
-                        rs.getInt("urun_id"), 
-                        kategori, 
-                        rs.getString("isim"), 
-                        rs.getInt("fiyat"), 
-                        rs.getString("aciklama")));
+                        rs.getInt("urun_id"),
+                        kategori,
+                        rs.getString("isim"),
+                        rs.getInt("fiyat"),
+                        rs.getString("aciklama"),
+                        rs.getString("imgurls")));
             }
 
         } catch (Exception ex) {
@@ -72,27 +75,28 @@ public class UrunDAO extends DataBase {
         }
         return list;
     }
-    
+
     public List<Urun> findAll(int page, int pageSize) {
 
         List<Urun> list = new ArrayList();
-        int start = (page-1)*pageSize;
+        int start = (page - 1) * pageSize;
 
         try {
 
             Statement st = getConnection().createStatement();
-            String query = "SELECT * FROM urun order by urun_id asc limit "+pageSize+" offset "+start;
+            String query = "SELECT * FROM urun order by urun_id asc limit " + pageSize + " offset " + start;
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
 
                 Kategori kategori = this.getKategoriDao().findByID(rs.getInt("kategori_id"));
 
                 list.add(new Urun(
-                        rs.getInt("urun_id"), 
-                        kategori, 
-                        rs.getString("isim"), 
-                        rs.getInt("fiyat"), 
-                        rs.getString("aciklama")));
+                        rs.getInt("urun_id"),
+                        kategori,
+                        rs.getString("isim"),
+                        rs.getInt("fiyat"),
+                        rs.getString("aciklama"),
+                        rs.getString("imgurls")));
             }
 
         } catch (Exception ex) {
@@ -100,39 +104,46 @@ public class UrunDAO extends DataBase {
         }
         return list;
     }
-    
+
     public int count() {
 
-        int count = 0;     
+        int count = 0;
 
         try {
 
             Statement st = getConnection().createStatement();
             String query = "select count(urun_id) as urun_count from urun";
             ResultSet rs = st.executeQuery(query);
-            rs.next();  
+            rs.next();
             count = rs.getInt("urun_count");
-            
-            
-            System.out.println("-------------- count -----------"+count);
+
+            System.out.println("-------------- count -----------" + count);
 
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
         return count;
     }
-    
+
     public void createUrun(Urun urun) {
 
         try {
+            
+            Connection c = this.getConnect();
 
-            Statement st = this.getConnection().createStatement();
-            String query = "INSERT INTO urun(kategori_id,isim,fiyat,aciklama) VALUES  (" + urun.getKategori().getKategoriId() + ",'" + urun.getIsim() + "'," 
-                    + urun.getFiyat() + ",'" + urun.getAciklama() + "')";
-            st.executeUpdate(query);
+            String sql = "insert into urun(kategori_id,isim,fiyat,aciklama,imgurls) values (?, ?, ?, ?, ?)";
+            PreparedStatement st = c.prepareStatement(sql);
+            st.setInt(1, urun.getKategori().getKategoriId());
+            st.setString(2, urun.getIsim());
+            st.setInt(3, urun.getFiyat());
+            st.setString(4, urun.getAciklama());
+            st.setString(5, urun.getImgUrl());
+            st.executeUpdate();
 
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+    
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println(urun.getIsim());
         }
     }
 
