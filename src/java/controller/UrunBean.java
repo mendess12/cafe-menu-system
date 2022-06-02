@@ -118,7 +118,7 @@ public class UrunBean implements Serializable {
                 
             System.out.println("---119Dao");
             } catch(Exception e){
-                this.entity.setImgUrl("meyve_suyu.jpg"); 
+                this.entity.setImgUrl(file.getSubmittedFileName()); 
                 System.out.println(e.getMessage());
             }
         } else{
@@ -130,6 +130,25 @@ public class UrunBean implements Serializable {
     }
 
     public void update() {
+        if(file != null && file.getSize() > 0){
+            System.out.println("---109Dao");
+            try{
+                
+            System.out.println("---112Dao");
+                InputStream input = getFile().getInputStream();
+                String temp = absolutePath+file.getSubmittedFileName();
+                File f = new File(temp);
+                Files.copy(input, f.toPath());
+                this.entity.setImgUrl(file.getSubmittedFileName());
+                
+            //System.out.println("---119Dao");
+            } catch(Exception e){
+                this.entity.setImgUrl(file.getSubmittedFileName()); 
+                System.out.println(e.getMessage());
+            }
+        } else{
+          this.entity.setImgUrl("meyve_suyu.jpg");  
+        }
         this.getDao().updateUrun(getEntity());
         this.entity = new Urun();
     }

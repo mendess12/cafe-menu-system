@@ -135,7 +135,7 @@ public class UrunDAO extends DataBase {
             PreparedStatement st = c.prepareStatement(sql);
             st.setInt(1, urun.getKategori().getKategoriId());
             st.setString(2, urun.getIsim());
-            st.setInt(3, urun.getFiyat());
+            st.setInt(3, Integer.valueOf(urun.getFiyat()));
             st.setString(4, urun.getAciklama());
             st.setString(5, urun.getImgUrl());
             st.executeUpdate();
@@ -151,14 +151,15 @@ public class UrunDAO extends DataBase {
 
         try {
 
-            String query = "UPDATE urun SET kategori_id=?,isim=?,fiyat=?,aciklama=? WHERE urun_id=?";
+            String query = "UPDATE urun SET kategori_id=?,isim=?,fiyat=?,aciklama=?,imgurls=? WHERE urun_id=?";
             PreparedStatement pst = this.getConnection().prepareStatement(query);
 
             pst.setInt(1, urun.getKategori().getKategoriId());
             pst.setString(2, urun.getIsim());
-            pst.setInt(3, urun.getFiyat());
+            pst.setInt(3, Integer.valueOf(urun.getFiyat()));
             pst.setString(4, urun.getAciklama());
-            pst.setInt(5, urun.getUrunId());
+            pst.setInt(6, urun.getUrunId());
+            pst.setString(5, urun.getImgUrl());
 
             pst.executeUpdate();
 

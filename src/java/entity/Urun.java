@@ -55,12 +55,15 @@ public class Urun {
         this.isim = isim;
     }
 
-    public int getFiyat() {
-        return fiyat;
+    public String getFiyat() {
+        if(fiyat == 0){
+            return "";
+        }
+        return String.valueOf(fiyat);
     }
 
-    public void setFiyat(int fiyat) {
-        this.fiyat = fiyat;
+    public void setFiyat(String fiyat) {
+        this.fiyat = Integer.valueOf(fiyat);
     }
 
     public String getAciklama() {

@@ -58,7 +58,7 @@ public class PaketSiparisDAO extends DataBase {
 
                 while (mainRs.next()) {
                     urunler.add(getUrunDAO().findByID(mainRs.getShort("urun_id")));
-                    tutar += urunler.get(urunler.size() - 1).getFiyat();
+                    tutar += Integer.valueOf(urunler.get(urunler.size() - 1).getFiyat());
                 }
 
                 list.add(new PaketSiparis(kullanici, tutar, urunler));
@@ -79,7 +79,7 @@ public class PaketSiparisDAO extends DataBase {
                 PreparedStatement pst = getConnection().prepareStatement(query);
                 pst.setShort(1, kullanici.getId());
                 pst.setInt(2, u.getUrunId());
-                pst.setInt(3, u.getFiyat());
+                pst.setInt(3, Integer.valueOf(u.getFiyat()));
                 pst.executeUpdate();
             }
 
